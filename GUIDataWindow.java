@@ -12,7 +12,8 @@ import CS2114.WindowSide;
  * @version <4/15/19>
  */
 public class GUIDataWindow {
-    // private Sorter s;
+    private Sorter sorter;
+    private int pageNumber;
     private Window window;
     private Button quit;
     private Button next;
@@ -27,8 +28,8 @@ public class GUIDataWindow {
     private TextShape legend;
 
 
-    public GUIDataWindow(/* Sorter s */) {
-
+    public GUIDataWindow(Sorter sort) {
+        sorter = sort;
         // create window
         window = new Window("Song Survey Visualization");
 
@@ -55,7 +56,7 @@ public class GUIDataWindow {
         window.addButton(sortByReleaseYear, WindowSide.NORTH);
         window.addButton(sortBySongTitle, WindowSide.NORTH);
         window.addButton(next, WindowSide.NORTH);
-        
+
         sortBySongTitle.onClick("clickedSortBySongTitle");
         sortByReleaseYear.onClick("clickedSortBySongTitle");
         sortByGenre.onClick("clickedSortBySongTitle");
@@ -66,63 +67,85 @@ public class GUIDataWindow {
         representByState.onClick("clickedRepresentByState");
         representByMajor.onClick("clickedRepresentByMajor");
         representByHobby.onClick("clickedRepresentByHobby");
-        
+
     }
-    
-    public void clickedSortBySongTitle()
-    {
-        //sorter.sortBy("title");
+
+
+    public void clickedSortBySongTitle() {
+        sorter.sortBy("title");
     }
-    
-    public void clickedSortByArtistName()
-    {
-        //sorter.sortBy("artist");
+
+
+    public void clickedSortByArtistName() {
+        sorter.sortBy("artist");
     }
-    
-    public void clickedSortByGenre()
-    {
-        //sorter.sortBy("genre");
+
+
+    public void clickedSortByGenre() {
+        sorter.sortBy("genre");
     }
-    
-    public void clickedSortByReleaseYear()
-    {
-        //sorter.sortBy("year");
+
+
+    public void clickedSortByReleaseYear() {
+        sorter.sortBy("year");
     }
-   
-    
-    public void clickedRepresentByState()
-    {
-    
+
+
+    public void clickedRepresentByState() {
+
     }
-    
-    public void clickedRepresentByMajor()
-    {
-    
+
+
+    public void clickedRepresentByMajor() {
+
     }
-    
-    public void clickedRepresentByHobby()
-    {
-    
+
+
+    public void clickedRepresentByHobby() {
+        update();
     }
-    
-    public void clickedQuit()
-    {
+
+
+    public void clickedQuit() {
         System.exit(0);
     }
-    
-    public void update()
-    {
+
+
+    public void clickedNext() {
+        pageNumber++;
+        update();
+    }
+
+
+    public void clickedPrevious() {
+        pageNumber--;
+        update();
+    }
+
+
+    private void update() {
         updateLegend();
-    }   
-    
-    public void updateLegend(){
-    
+        updateGlyphs();
     }
-    
-    public void updateGlyphs(){
-    
+
+
+    private void updateLegend() {
+
     }
-    
+
+
+    private void updateGlyphs() {
+        window.removeAllShapes();
+        int count = 0;
+        for (int i = 0; i <= 9; i++) {
+            // list.get(i + pageNumber);
+            generateGlyph(i);
+        }
+    }
+
+
+    private void generateGlyph(int i) {
+
+    }
+
 }
-
-
