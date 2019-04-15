@@ -42,6 +42,7 @@ public class GUIDataWindow {
         sortByArtistName = new Button("Sort by Artist Name");
         sortBySongTitle = new Button("Sort by Song Title");
         sortByReleaseYear = new Button("Sort by Release Year");
+        sortByGenre = new Button("Sort by Genre");
 
         // add to window
         window.addButton(quit, WindowSide.SOUTH);
@@ -49,7 +50,79 @@ public class GUIDataWindow {
         window.addButton(representByState, WindowSide.SOUTH);
         window.addButton(representByMajor, WindowSide.SOUTH);
         window.addButton(representByHobby, WindowSide.SOUTH);
-
+        window.addButton(sortByArtistName, WindowSide.NORTH);
+        window.addButton(sortByGenre, WindowSide.NORTH);
+        window.addButton(sortByReleaseYear, WindowSide.NORTH);
+        window.addButton(sortBySongTitle, WindowSide.NORTH);
+        window.addButton(next, WindowSide.NORTH);
+        
+        sortBySongTitle.onClick("clickedSortBySongTitle");
+        sortByReleaseYear.onClick("clickedSortBySongTitle");
+        sortByGenre.onClick("clickedSortBySongTitle");
+        sortByArtistName.onClick("clickedSortBySongTitle");
+        quit.onClick("clickedQuit");
+        previous.onClick("clickedPrevious");
+        next.onClick("clickedNext");
+        representByState.onClick("clickedRepresentByState");
+        representByMajor.onClick("clickedRepresentByMajor");
+        representByHobby.onClick("clickedRepresentByHobby");
+        
     }
-
+    
+    public void clickedSortBySongTitle()
+    {
+        //sorter.sortBy("title");
+    }
+    
+    public void clickedSortByArtistName()
+    {
+        //sorter.sortBy("artist");
+    }
+    
+    public void clickedSortByGenre()
+    {
+        //sorter.sortBy("genre");
+    }
+    
+    public void clickedSortByReleaseYear()
+    {
+        //sorter.sortBy("year");
+    }
+   
+    
+    public void clickedRepresentByState()
+    {
+    
+    }
+    
+    public void clickedRepresentByMajor()
+    {
+    
+    }
+    
+    public void clickedRepresentByHobby()
+    {
+    
+    }
+    
+    public void clickedQuit()
+    {
+        System.exit(0);
+    }
+    
+    public void update()
+    {
+        updateLegend();
+    }   
+    
+    public void updateLegend(){
+    
+    }
+    
+    public void updateGlyphs(){
+    
+    }
+    
 }
+
+
