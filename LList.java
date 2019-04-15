@@ -2,10 +2,31 @@ package prj5;
 
 public class LList<T> {
 
-    private static class Node<E> {
-        private Node<E> next;
-        private Node<E> previous;
-        private E data;
+    /**
+     * This represents a node in a singly linked list. This node stores data
+     * along with having a pointer to the next node in the list
+     *
+     * @param <D>
+     *            This is the type of object that this class will store
+     * @author Mark Wiggans (mmw125)
+     * @author Christina Olk (colk)
+     * @author maellis1
+     * @author Jamal Ahmad (jamal93)
+     * @author Margaret Ellis (maellis1)
+     * 
+     * @version 4/14/2015
+     * @version 9.4.15
+     * @version 10.29.15
+     * @version 10/15/2016
+     * @version 03/17/2017
+     */
+    public static class Node<D> {
+
+        // The data element stored in the node.
+        private D data;
+
+        // The next node in the sequence.
+        private Node<D> next;
 
 
         /**
@@ -14,7 +35,7 @@ public class LList<T> {
          * @param d
          *            the data to put inside the node
          */
-        public Node(E d) {
+        public Node(D d) {
             data = d;
         }
 
@@ -25,19 +46,8 @@ public class LList<T> {
          * @param n
          *            the node after this one
          */
-        public void setNext(Node<E> n) {
+        public void setNext(Node<D> n) {
             next = n;
-        }
-
-
-        /**
-         * Sets the node before this one
-         *
-         * @param n
-         *            the node before this one
-         */
-        public void setPrevious(Node<E> n) {
-            previous = n;
         }
 
 
@@ -46,18 +56,8 @@ public class LList<T> {
          *
          * @return the next node
          */
-        public Node<E> next() {
+        public Node<D> next() {
             return next;
-        }
-
-
-        /**
-         * Gets the node before this one
-         *
-         * @return the node before this one
-         */
-        public Node<E> previous() {
-            return previous;
         }
 
 
@@ -66,54 +66,24 @@ public class LList<T> {
          *
          * @return the data in the node
          */
-        public E getData() {
+        public D getData() {
             return data;
         }
     }
 
-    /**
-     * How many nodes are in the list
-     */
-    private int size;
-
-    /**
-     * The first node in the list.
-     */
     private Node<T> head;
 
-    /**
-     * The last node in the list.
-     */
-    private Node<T> tail;
+    // the size of the linked list
+    private int size;
 
 
     /**
-     * Create a new DLList object.
+     * Creates a new LinkedList object
      */
     public LList() {
-        init();
-    }
-
-
-    /**
-     * Initializes the object to have the head and tail nodes
-     */
-    private void init() {
-        head = new LList.Node<T>(null);
-        tail = new LList.Node<T>(null);
-        head.setNext(tail);
-        tail.setPrevious(head);
+        head = null;
         size = 0;
-    }
 
-
-    /**
-     * Checks if the array is empty
-     *
-     * @return true if the array is empty
-     */
-    public boolean isEmpty() {
-        return size == 0;
     }
 
 
@@ -128,10 +98,155 @@ public class LList<T> {
 
 
     /**
-     * Removes all of the elements from the list
+     * Adds the object to the end of the list.
+     *
+     * @precondition obj cannot be null
+     * @param obj
+     *            the object to add
+     * @throws IllegalArgumentException
+     *             if obj is null
      */
-    public void clear() {
-        init();
+    public void add(T obj) {
+        // check if the object is null
+        if (obj == null) {
+            throw new IllegalArgumentException("Object is null");
+        }
+
+        Node<T> current = head;
+
+        // empty stack case
+        if (isEmpty()) {
+            head = new Node<T>(obj);
+
+        }
+
+        // other cases
+        else {
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.setNext(new Node<T>(obj));
+        }
+        size++;
+    }
+
+
+    /**
+     * Checks if the array is empty
+     *
+     * @return true if the array is empty
+     */
+    public boolean isEmpty() {
+        return (size == 0);
+    }
+
+
+    /**
+     * Removes the first instance of the given object from the list
+     *
+     * @param obj
+     *            the object to remove
+     * @return true if successful
+     */
+    public boolean remove(T obj) {
+        Node<T> current = head;
+
+        // account for matching head
+        if ((null != head) && (obj.equals(current.data))) {
+            head = head.next;
+            size--;
+            return true;
+        }
+
+        // account for 2+ size
+        while (size() >= 2 && (current.next != null)) {
+            if (obj.equals(current.next.data)) {
+                if (current.next.next != null) {
+                    current.setNext(current.next.next);
+                }
+                current.next = null;
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
+
+        // this accounts for the isEmpty case or the object does not exist
+        return false;
+    }
+
+
+    /**
+     * Removes the object at the given position
+     *
+     * @param index
+     *            the position of the object
+     * @return true if the removal was successful
+     * @throws IndexOutOfBoundsException
+     *             if there is not an element at the index
+     */
+    public boolean remove(int index) {
+        // // if the index is invalid
+        if (index < 0 || head == null) {
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+        else {
+
+            Node<T> current = head;
+            int currentIndex = 0;
+
+            // account for 1 size
+            if ((index == 0)) {
+                head = head.next;
+                size--;
+                return true;
+            }
+
+            // account for 2+ size
+            while (current.next != null) {
+                if ((currentIndex + 1) == index) {
+                    Node<T> newNext = current.next.next;
+                    current.setNext(newNext);
+                    size--;
+                    return true;
+                }
+                current = current.next;
+                currentIndex++;
+            }
+
+            // if the element was never found, this also handles empty case
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+    }
+
+
+    /**
+     * Gets the object at the given position
+     *
+     * @param index
+     *            where the object is located
+     * @return The object at the given position
+     * @throws IndexOutOfBoundsException
+     *             if no node at the given index
+     */
+    public T get(int index) {
+        Node<T> current = head;
+        int currentIndex = 0;
+        T data = null;
+        while (current != null) {
+            if (currentIndex == index) {
+                data = current.data;
+            }
+            currentIndex++;
+            current = current.next;
+        }
+
+        // check if the data was null...
+        if (data == null) {
+            // ... if so throw an exception
+            throw new IndexOutOfBoundsException("Index exceeds the size.");
+        }
+        return data;
     }
 
 
@@ -143,90 +258,29 @@ public class LList<T> {
      * @return true if it contains the object
      */
     public boolean contains(T obj) {
-        return lastIndexOf(obj) != -1;
+        Node<T> current = head;
+        while (current != null) {
+            if (obj.equals(current.data)) {
+                return true;
+            }
+            current = current.next;
+        }
+
+        return false;
     }
 
 
     /**
-     * Gets the object at the given position
-     *
-     * @param index
-     *            where the object is located
-     * @return The object at the given position
-     * @throws IndexOutOfBoundsException
-     *             if there no node at the given index
+     * Removes all of the elements from the list
      */
-    public T get(int index) {
-        return getSongAtIndex(index).getData();
-    }
-
-
-    /**
-     * Adds a element to the end of the list
-     *
-     * @param newEntry
-     *            the element to add to the end
-     */
-    public void add(T newEntry) {
-        add(size(), newEntry);
-    }
-
-
-    /**
-     * Adds the object to the position in the list
-     *
-     * @param index
-     *            where to add the object
-     * @param obj
-     *            the object to add
-     * @throws IndexOutOfBoundsException
-     *             if index is less than zero or greater than size
-     * @throws IllegalArgumentException
-     *             if obj is null
-     */
-    public void add(int index, T obj) {
-        if (index < 0 || size < index) {
-            throw new IndexOutOfBoundsException();
-        }
-        if (obj == null) {
-            throw new IllegalArgumentException("Cannot add null "
-                + "objects to a list");
+    public void clear() {
+        // make sure we don't call clear on an empty list
+        if (head != null) {
+            head.setNext(null);
+            head = null;
+            size = 0;
         }
 
-        Node<T> nodeAfter;
-        if (index == size) {
-            nodeAfter = tail;
-        }
-        else {
-            nodeAfter = getSongAtIndex(index);
-        }
-
-        Node<T> addition = new Node<T>(obj);
-        addition.setPrevious(nodeAfter.previous());
-        addition.setNext(nodeAfter);
-        nodeAfter.previous().setNext(addition);
-        nodeAfter.setPrevious(addition);
-        size++;
-
-    }
-
-
-    /**
-     * gets the node at that index
-     * 
-     * @param index
-     * @return node at index
-     */
-    private Node<T> getSongAtIndex(int index) {
-        if (index < 0 || size() <= index) {
-            throw new IndexOutOfBoundsException("No element exists at "
-                + index);
-        }
-        Node<T> current = head.next(); // as we have a sentinel node
-        for (int i = 0; i < index; i++) {
-            current = current.next();
-        }
-        return current;
     }
 
 
@@ -238,59 +292,18 @@ public class LList<T> {
      * @return the last position of it. -1 If it is not in the list
      */
     public int lastIndexOf(T obj) {
-        /*
-         * We should go from the end of the list as then we an stop once we find
-         * the first one
-         */
-        Node<T> current = tail.previous();
-        for (int i = size() - 1; i >= 0; i--) {
-            if (current.getData().equals(obj)) {
-                return i;
+        int lastIndex = -1;
+        Node<T> current = head;
+        int currentIndex = 0;
+        while (current != null) {
+            if (obj.equals(current.data)) {
+                lastIndex = currentIndex;
             }
-            current = current.previous();
+            currentIndex++;
+            current = current.next;
+
         }
-        return -1; // if we do not find it
-    }
-
-
-    /**
-     * Removes the element at the specified index from the list
-     *
-     * @param index
-     *            where the object is located
-     * @throws IndexOutOfBoundsException
-     *             if there is not an element at the index
-     * @return true if successful
-     */
-    public boolean remove(int index) {
-        Node<T> nodeToBeRemoved = getSongAtIndex(index);
-        nodeToBeRemoved.previous().setNext(nodeToBeRemoved.next());
-        nodeToBeRemoved.next().setPrevious(nodeToBeRemoved.previous());
-        size--;
-        return true;
-    }
-
-
-    /**
-     * Removes the first object in the list that .equals(obj)
-     *
-     * @param obj
-     *            the object to remove
-     * @return true if the object was found and removed
-     */
-
-    public boolean remove(T obj) {
-        Node<T> current = head.next();
-        while (!current.equals(tail)) {
-            if (current.getData().equals(obj)) {
-                current.previous().setNext(current.next());
-                current.next().setPrevious(current.previous());
-                size--;
-                return true;
-            }
-            current = current.next();
-        }
-        return false;
+        return lastIndex;
     }
 
 
@@ -302,29 +315,89 @@ public class LList<T> {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("{");
-        if (!isEmpty()) {
-            Node<T> currNode = head.next();
-            while (currNode != tail) {
-                T element = currNode.getData();
-                builder.append(element.toString());
-                if (currNode.next != tail) {
-                    builder.append(", ");
+        String result = "{";
+
+        Node<T> current = head;
+        while (current != null) {
+            result += "" + current.data;
+            current = current.next;
+            if (current != null) {
+                result += ", ";
+            }
+        }
+        result += "}";
+        return result;
+    }
+
+
+    /**
+     * Returns an array representation of the list If a list contains A, B, and
+     * C, the following should be returned {A, B, C}, If a list
+     * contains A, B, C, and C the following should be returned {A, B, C, C}
+     *
+     * @return an array representing the list
+     */
+    public Object[] toArray() {
+
+        Object[] array = new Object[this.size()];
+
+        Node<T> current = head;
+        int count = 0;
+        while (current != null) {
+            array[count] = current.getData();
+            current = current.next;
+            count++;
+        }
+
+        return array;
+    }
+
+
+    /**
+     * Returns true if both lists have the exact same contents
+     * in the exact same order
+     *
+     * @return a boolean of whether two lists have the same contents,
+     *         item per item and in the same order
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() == obj.getClass()) {
+            @SuppressWarnings("unchecked")
+            LList<T> other = ((LList<T>)obj);
+            if (other.size() == this.size()) {
+                Node<T> current = head;
+                Node<T> otherCurrent = other.head;
+                while (current != null) {
+                    if (!current.getData().equals(otherCurrent.getData())) {
+                        return false;
+                    }
+                    current = current.next();
+                    otherCurrent = otherCurrent.next();
                 }
-                currNode = currNode.next();
+                return true;
             }
         }
 
-        builder.append("}");
-        return builder.toString();
+        return false;
     }
 
-    /**
-     * This method swaps to Nodes in the linked list
-     * 
-     * @return
-     */
-    // public LList<T> swap(int index, int index2) {
 
-    // }
+    public void swap(int index1, int index2) {
+        Node<T> temp;
+        @SuppressWarnings("unchecked")
+        Node<T> t1 = (Node<T>)get(index1);
+        @SuppressWarnings("unchecked")
+        Node<T> t2 = (Node<T>)get(index2);
+        temp = t1;
+        t1 = t2;
+        t2 = temp;
+    }
+
 }
