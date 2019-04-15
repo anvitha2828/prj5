@@ -3,8 +3,16 @@ package prj5;
 import CS2114.Button;
 import CS2114.TextShape;
 import CS2114.Window;
+import CS2114.WindowSide;
 
+/**
+ * GUI Data Window
+ *
+ * @author <Anvitha Nachiappan> <anvitha>
+ * @version <4/15/19>
+ */
 public class GUIDataWindow {
+    // private Sorter s;
     private Window window;
     private Button quit;
     private Button next;
@@ -19,7 +27,8 @@ public class GUIDataWindow {
     private TextShape legend;
 
 
-    public GUIDataWindow() {
+    public GUIDataWindow(/* Sorter s */) {
+
         // create window
         window = new Window("Song Survey Visualization");
 
@@ -33,6 +42,13 @@ public class GUIDataWindow {
         sortByArtistName = new Button("Sort by Artist Name");
         sortBySongTitle = new Button("Sort by Song Title");
         sortByReleaseYear = new Button("Sort by Release Year");
+
+        // add to window
+        window.addButton(quit, WindowSide.SOUTH);
+        window.addButton(previous, WindowSide.NORTH);
+        window.addButton(representByState, WindowSide.SOUTH);
+        window.addButton(representByMajor, WindowSide.SOUTH);
+        window.addButton(representByHobby, WindowSide.SOUTH);
 
     }
 
