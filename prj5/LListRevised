@@ -1,9 +1,10 @@
 package prj5;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import prj5.Song;
 
-public class LList implements LLInterface {
+public class LList implements Iterable<Song> {
 
     /**
      * This represents a node in a singly linked list. This node stores data
@@ -30,7 +31,6 @@ public class LList implements LLInterface {
 
         // The next node in the sequence.
         private Node next;
-        
 
 
         /**
@@ -77,15 +77,14 @@ public class LList implements LLInterface {
 
         public void setData(Song data2) {
             // TODO Auto-generated method stub
-            
+
         }
     }
 
     private Node head;
-
-    // the size of the linked list
     private int size;
     private String[] param;
+    private LListIterator iter;
 
 
     /**
@@ -94,6 +93,7 @@ public class LList implements LLInterface {
     public LList() {
         head = null;
         size = 0;
+        iter = iterator();
     }
 
 
@@ -117,27 +117,7 @@ public class LList implements LLInterface {
      *             if obj is null
      */
     public void add(Song song) {
-        // check if the object is null
-        if (song == null) {
-            throw new IllegalArgumentException("Song is null");
-        }
-
-        Node current = head;
-
-        // empty stack case
-        if (isEmpty()) {
-            head = new Node(song);
-
-        }
-
-        // other cases
-        else {
-            while (current.next != null) {
-                current = current.next;
-            }
-            current.setNext(new Node<T>(obj));
-        }
-        size++;
+        //Implement using Iterator
     }
 
 
@@ -161,52 +141,20 @@ public class LList implements LLInterface {
      *             if no node at the given index
      */
     public Node get(int index) {
-        Node current = head;
-        int currentIndex = 0;
-        Node<T> node = null;
-        while (current != null) {
-            if (currentIndex == index) {
-                data = current.data;
-            }
-            currentIndex++;
-            current = current.next;
-        }
+      //Implement using Iterator
+    }
 
-        // check if the data was null...
-        if (data == null) {
-            // ... if so throw an exception
-            throw new IndexOutOfBoundsException("Index exceeds the size.");
-        }
-        
-        return node;
+
+    public Song getSong(int idx) {
+        return get(idx).data;
     }
-    
+
+
     private void changeParam(String str) {
-        if (str == "title") {
-            for (int i = 0; i < size; i++) {
-                param[i] = get(i).data.getTitle();
-            }
-        }
-        else if (str == "genre") {
-            for (int i = 0; i < size; i++) {
-                param[i] = get(i).data.getGenre();
-            }
-        }
-        else if (str == "artist") {
-            for (int i = 0; i < size; i++) {
-                param[i] = get(i).data.getArtist();
-            }
-        }
-        else if (str == "year") {
-            for (int i = 0; i < size; i++) {
-                param[i] = get(i).data.getTitle();
-            }
-        }
-        else {
-            throw new IllegalArgumentException();
-        }
+      //Implement using Iterator
     }
-    
+
+
     /**
      * Sorts the list by input parameter.
      * 
@@ -275,5 +223,33 @@ public class LList implements LLInterface {
         Song sTemp = get(p1).data;
         get(p1).data = get(p2).data;
         get(p2).data = sTemp;
+    }
+
+
+    
+    public LListIterator iterator() {
+        return new LListIterator();
+    }
+
+
+    private class LListIterator implements Iterator<Song> {
+
+        private Node curr;
+        
+        public LListIterator()
+        {
+            curr = head;
+        }
+        
+        public boolean hasNext() {
+            return curr.next != null;
+        }
+
+
+        @Override
+        public Song next() {
+            curr = curr.next;
+            return curr.getData();
+        }
     }
 }
