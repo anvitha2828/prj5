@@ -9,6 +9,7 @@ import CS2114.WindowSide;
 /**
  * 
  * @author Matthew Pinho
+ * @author Anvitha Nachiappan
  *
  */
 public class GUIDataWindow {
@@ -28,16 +29,16 @@ public class GUIDataWindow {
     private String represent;
     private final int columnWidth = 10;
     private final int columnHeight = 40;
-    private final int lastPage = Math.ceil(list.getSize() / 9);
     private final int barWidth = 10;
-    private LList list;
+    private LListSong list;
     private int[][] demographics;
+    private final double lastPage = 10;//Math.ceil(list.size() / 9);
 
     /**
      * 
      * @param songs
      */
-    public GUIDataWindow(LList songs) {
+    public GUIDataWindow(LListSong songs) {
         represent = "hobby";
         list = songs;
 
@@ -80,13 +81,15 @@ public class GUIDataWindow {
         representByHobby.onClick("clickedRepresentByHobby");
 
         update();
+        pageNumber = 0;
+        
     }
 
     /**
      * 
      */
     public void clickedSortBySongTitle() {
-        list.sortBy("title");
+        //list.sortBy("title");
         update();
     }
 
@@ -94,7 +97,7 @@ public class GUIDataWindow {
      * 
      */
     public void clickedSortByArtistName() {
-        list.sortBy("artist");
+        //list.sortBy("artist");
         update();
     }
 
@@ -102,7 +105,7 @@ public class GUIDataWindow {
      * 
      */
     public void clickedSortByGenre() {
-        list.sortBy("genre");
+        //list.sortBy("genre");
         update();
     }
 
@@ -110,7 +113,7 @@ public class GUIDataWindow {
      * 
      */
     public void clickedSortByReleaseYear() {
-        list.sortBy("year");
+        //list.sortBy("year");
         update();
     }
 
@@ -241,7 +244,7 @@ public class GUIDataWindow {
 
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                song = list.getSong(pageNumber + i);
+                song = (Song)list.getSong(pageNumber + i);
                 generateGlyph(x, y, song);
                 i++;
 
@@ -278,6 +281,9 @@ public class GUIDataWindow {
     
     private int[][] readData(String str, Song song)
     {
+        return demographics;
         
     }
 }
+
+
