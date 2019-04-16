@@ -110,9 +110,16 @@ public class LList implements Iterable<Song> {
             throw new IllegalArgumentException("Cannot add null "
                 + "objects to a list");
         }
-
+        int i = 0;
+        while (iter.hasNext()) {
+            iter.next();
+            i++;
+        }
         Node nodeAfter;
-        nodeAfter = get(size + 1);
+        nodeAfter = get(i);
+
+        // Node nodeAfter;
+        // nodeAfter = get(size + 1);
         size++;
     }
 
@@ -155,8 +162,31 @@ public class LList implements Iterable<Song> {
 
 
     private void changeParam(String str) {
-        //TODO
-        // Implement using Iterator
+
+        if (str == "title") {
+            for (int i = 0; i < size(); i++) {
+                param[i] = getSong(i).getTitle();
+            }
+        }
+        else if (str == "genre") {
+            for (int i = 0; i < size(); i++) {
+                param[i] = getSong(i).getGenre();
+            }
+        }
+        else if (str == "artist") {
+            for (int i = 0; i < size(); i++) {
+                param[i] = getSong(i).getArtist();
+            }
+        }
+        else if (str == "year") {
+            for (int i = 0; i < size(); i++) {
+                param[i] = getSong(i).getTitle();
+            }
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
+
     }
 
 
