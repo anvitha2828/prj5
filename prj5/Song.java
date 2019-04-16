@@ -4,7 +4,7 @@ public class Song {
     private String title;
     private String genre;
     private String artist;
-    private int year;
+    private String year;
     private int[][] majorHeardLikes;
     private int[][] stateHeardLikes;
     private int[][] hobbyHeardLikes;
@@ -22,7 +22,7 @@ public class Song {
      * @param gen
      *            genre
      */
-    public Song(String name, String art, int yea, String gen) {
+    public Song(String name, String art, String yea, String gen) {
         title = name;
         genre = gen;
         artist = art;
@@ -61,7 +61,7 @@ public class Song {
      * @return int
      *         returns the year
      */
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
