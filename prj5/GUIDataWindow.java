@@ -1,5 +1,6 @@
 package prj5;
 
+import java.awt.Color;
 import CS2114.Button;
 import CS2114.Shape;
 import CS2114.TextShape;
@@ -9,7 +10,6 @@ import CS2114.WindowSide;
 /**
  * 
  * @author Matthew Pinho
- * @author Anvitha Nachiappan
  *
  */
 public class GUIDataWindow {
@@ -29,18 +29,20 @@ public class GUIDataWindow {
     private String represent;
     private final int columnWidth = 10;
     private final int columnHeight = 40;
+    private final int lastPage;
+    private final int barLengthFactor = 10;
     private final int barWidth = 10;
-    private LListSong list;
-    private int[][] demographics;
-    private final double lastPage = 10;//Math.ceil(list.size() / 9);
+    private LList list;
+
 
     /**
      * 
      * @param songs
      */
-    public GUIDataWindow(LListSong songs) {
+    public GUIDataWindow(LList songs) {
         represent = "hobby";
         list = songs;
+        lastPage = (int)Math.ceil(list.size() / 9);
 
         // create window
         window = new Window("Song Survey Visualization");
@@ -81,41 +83,44 @@ public class GUIDataWindow {
         representByHobby.onClick("clickedRepresentByHobby");
 
         update();
-        pageNumber = 0;
-        
     }
+
 
     /**
      * 
      */
     public void clickedSortBySongTitle() {
-        //list.sortBy("title");
+        list.sortBy("title");
         update();
     }
+
 
     /**
      * 
      */
     public void clickedSortByArtistName() {
-        //list.sortBy("artist");
+        list.sortBy("artist");
         update();
     }
+
 
     /**
      * 
      */
     public void clickedSortByGenre() {
-        //list.sortBy("genre");
+        list.sortBy("genre");
         update();
     }
+
 
     /**
      * 
      */
     public void clickedSortByReleaseYear() {
-        //list.sortBy("year");
+        list.sortBy("year");
         update();
     }
+
 
     /**
      * 
@@ -125,6 +130,7 @@ public class GUIDataWindow {
         update();
     }
 
+
     /**
      * 
      */
@@ -132,6 +138,7 @@ public class GUIDataWindow {
         represent = "state";
         update();
     }
+
 
     /**
      * 
@@ -141,12 +148,14 @@ public class GUIDataWindow {
         update();
     }
 
+
     /**
      * Closes the GUI.
      */
     public void clickedQuit() {
         System.exit(0);
     }
+
 
     /**
      * Simulates clicking "Next" on the GUI.
@@ -161,6 +170,7 @@ public class GUIDataWindow {
             next.enable();
         }
     }
+
 
     /**
      * Simulates clicking "Previous" on the GUI.
@@ -244,7 +254,7 @@ public class GUIDataWindow {
 
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                song = (Song)list.getSong(pageNumber + i);
+                song = list.getSong(pageNumber + i);
                 generateGlyph(x, y, song);
                 i++;
 
@@ -272,18 +282,52 @@ public class GUIDataWindow {
             - columnWidth / 2);
         int yPos = (int)((y + 1) * .25 * window.getGraphPanelHeight());
         window.addShape(new Shape(xPos, yPos, columnWidth, columnHeight));
-        
+
         // generate bars
-        
+        int[][] info = song.getInfo(represent);
+
+        //heards bars
+        Shape pinkH = new Shape(10, 10, barLength(info[1][1]), barWidth,
+            Color.MAGENTA);
+        Shape blueH = new Shape(10, 10, barLength(info[2][1]), barWidth,
+            Color.BLUE);
+        Shape orangeH = new Shape(10, 10, barLength(info[3][1]), barWidth,
+            Color.ORANGE);
+        Shape greenH = new Shape(10, 10, barLength(info[4][1]), barWidth,
+            Color.GREEN);
+
+        //likes bars
+        Shape pinkL = new Shape(10, 10, barLength(info[1][2]), barWidth,
+            Color.MAGENTA);
+        Shape blueL = new Shape(10, 10, barLength(info[2][2]), barWidth,
+            Color.BLUE);
+        Shape orangeL = new Shape(10, 10, barLength(info[3][2]), barWidth,
+            Color.ORANGE);
+        Shape greenL = new Shape(10, 10, barLength(info[4][2]), barWidth,
+            Color.GREEN);
+
         // add TextShape description
         window.addShape(new TextShape(xPos, yPos + 5, song.getTitle()));
+        window.addShape(pinkH);
+        window.addShape(blueH);
+        window.addShape(orangeH);
+        window.addShape(greenH);
+
+        window.addShape(pinkL);
+        window.addShape(blueL);
+        window.addShape(orangeL);
+        window.addShape(greenL);
     }
-    
-    private int[][] readData(String str, Song song)
-    {
-        return demographics;
-        
+
+
+    /**
+     * Returns the length of a bar based on count of likes or heards.
+     * 
+     * @param count
+     *            Number of likes or heards.
+     * @return Length of a bar.
+     */
+    private int barLength(int count) {
+        return barLengthFactor * count;
     }
 }
-
-
