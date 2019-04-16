@@ -2,11 +2,16 @@ package prj5;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class DataReader {
 
     private LListSong<Song> songBank;
+    private HashMap<String, Integer> binary;
+    private HashMap<String, Integer> maj;
+    private HashMap<String, Integer> stt;
+    private HashMap<String, Integer> hob;
 
 
     /**
@@ -21,6 +26,30 @@ public class DataReader {
     public DataReader(String songFile, String surveyFile)
         throws FileNotFoundException {
         songBank = new LListSong<Song>();
+        
+        binary = new HashMap<String, Integer>();
+        binary.put("Yes", 1);
+        binary.put("No", 0);
+        binary.put("", 0);
+
+        maj = new HashMap<String, Integer>();
+        maj.put("reading", 0);
+        maj.put("art", 1);
+        maj.put("sports", 2);
+        maj.put("music", 3);
+
+        stt = new HashMap<String, Integer>();
+        stt.put("Southeast", 0);
+        stt.put("Northeast", 1);
+        stt.put("United States (other than Southeast or Northwest)", 2);
+        stt.put("Outside of United States", 3);
+
+        hob = new HashMap<String, Integer>();
+        hob.put("Computer Science", 0);
+        hob.put("Other Engineering", 1);
+        hob.put("Math or CMDA", 2);
+        hob.put("Other", 3);
+        
         readSongs(songFile);
         readSurveys(surveyFile);
     }
@@ -39,7 +68,7 @@ public class DataReader {
         scanWee.nextLine();
         while (scanWee.hasNextLine()) {
             String parcel = scanWee.nextLine();
-            String[] parsed = parcel.split(", *", -1);
+            String[] parsed = parcel.split(",*", -1);
             songBank.add(new Song(parsed[0], parsed[1], Integer.parseInt(
                 parsed[2]), parsed[3]));
         }
@@ -57,6 +86,31 @@ public class DataReader {
     private void readSurveys(String fN) throws FileNotFoundException {
         @SuppressWarnings("resource")
         Scanner scanWoo = new Scanner(new File(fN));
-        int one = scanWoo.nextInt();
-    }
+        scanWoo.nextLine();
+        while (scanWoo.hasNextLine()) {
+            int cnt = 0;
+            String thisGuy = scanWoo.nextLine();
+            String[] chopped = thisGuy.split(",*");
+            
+            int majInt = maj.get(chopped[2]);
+            int sttInt = maj.get(chopped[3]);
+            int hobInt = maj.get(chopped[4]);
+            
+            for (int i = 5; i < chopped.length; i += 2) {
+                songBank.getSong(cnt).getInfo("major")[majInt][0] += binary.get(
+                    chopped[i]);
+                songBank.getSong(cnt).getInfo("major")[majInt][1] += binary.get(
+                    chopped[i + 1]);
+                songBank.getSong(cnt).getInfo("state")[sttInt][0] += binary.get(
+                    chopped[i]);
+                songBank.getSong(cnt).getInfo("state")[sttInt][1] += binary.get(
+                    chopped[i + 1]);
+                songBank.getSong(cnt).getInfo("hobby")[hobInt][0] += binary.get(
+                    chopped[i]);
+                songBank.getSong(cnt).getInfo("hobby")[hobInt][1] += binary.get(
+                    chopped[i + 1]);
+            } // end for i
+            cnt++;
+        } // end while
+    } // end readSurveys
 }

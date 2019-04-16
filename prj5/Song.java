@@ -5,6 +5,9 @@ public class Song {
     private String genre;
     private String artist;
     private int year;
+    private int[][] majorHeardLikes;
+    private int[][] stateHeardLikes;
+    private int[][] hobbyHeardLikes;
 
 
     public Song(String name, String art, int yea, String gen) {
@@ -12,6 +15,9 @@ public class Song {
         genre = gen;
         artist = art;
         year = yea;
+        majorHeardLikes = new int[4][2];
+        stateHeardLikes = new int[4][2];
+        hobbyHeardLikes = new int[4][2];
     }
 
 
@@ -32,6 +38,20 @@ public class Song {
 
     public String getGenre() {
         return genre;
+    }
+    
+    
+    public int[][] getInfo(String s) {
+        if (s == "major") {
+            return majorHeardLikes;
+        }
+        if (s == "state") {
+            return stateHeardLikes;
+        }
+        if (s == "hobby") {
+            return hobbyHeardLikes;
+        }
+        return null;
     }
 
 
