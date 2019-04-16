@@ -82,7 +82,7 @@ public class LList implements Iterable<Song> {
     public LList() {
         head = null;
         size = 0;
-        iter = iterator();
+        param = new String[0];
     }
 
 
@@ -99,28 +99,35 @@ public class LList implements Iterable<Song> {
     /**
      * Adds the object to the end of the list.
      *
-     * @precondition obj cannot be null
-     * @param obj
+     * @precondition song cannot be null
+     * @param song
      *            the object to add
      * @throws IllegalArgumentException
-     *             if obj is null
+     *             if song is null
      */
     public void add(Song song) {
+        iter = iterator();
+
         if (song == null) {
             throw new IllegalArgumentException("Cannot add null "
                 + "objects to a list");
         }
-        int i = 0;
-        while (iter.hasNext()) {
-            iter.next();
-            i++;
-        }
-        Node nodeAfter;
-        nodeAfter = get(i);
 
-        // Node nodeAfter;
-        // nodeAfter = get(size + 1);
+        if (isEmpty()) {
+            head = new Node(song);
+        }
+        else {
+            Node curr = head;
+            while (iter.hasNext()) {
+                iter.next();
+                curr = curr.next;
+            }
+
+            curr.next = new Node(song);
+        }
+
         size++;
+        param = new String[size];
     }
 
 
@@ -130,7 +137,7 @@ public class LList implements Iterable<Song> {
      * @return true if the array is empty
      */
     public boolean isEmpty() {
-        return (size == 0);
+        return size == 0;
     }
 
 
@@ -143,44 +150,43 @@ public class LList implements Iterable<Song> {
      * @throws IndexOutOfBoundsException
      *             if no node at the given index
      */
-    public Node get(int index) {
+    public Song get(int index) {
+        iter = iterator();
+
         if (index < 0 || size() <= index) {
             throw new IndexOutOfBoundsException("No element exists at "
                 + index);
         }
-        Node current = head.next(); // as we have a sentinel node
+
+        Song song = head.data;
+
         for (int i = 0; i < index; i++) {
-            current = current.next();
+            song = iter.next();
         }
-        return current;
-    }
 
-
-    public Song getSong(int idx) {
-        return get(idx).data;
+        return song;
     }
 
 
     private void changeParam(String str) {
-
         if (str == "title") {
-            for (int i = 0; i < size(); i++) {
-                param[i] = getSong(i).getTitle();
+            for (int i = 0; i < size; i++) {
+                param[i] = get(i).getTitle();
             }
         }
         else if (str == "genre") {
-            for (int i = 0; i < size(); i++) {
-                param[i] = getSong(i).getGenre();
+            for (int i = 0; i < size; i++) {
+                param[i] = get(i).getGenre();
             }
         }
         else if (str == "artist") {
-            for (int i = 0; i < size(); i++) {
-                param[i] = getSong(i).getArtist();
+            for (int i = 0; i < size; i++) {
+                param[i] = get(i).getArtist();
             }
         }
         else if (str == "year") {
-            for (int i = 0; i < size(); i++) {
-                param[i] = getSong(i).getTitle();
+            for (int i = 0; i < size; i++) {
+                param[i] = get(i).getTitle();
             }
         }
         else {
@@ -229,7 +235,7 @@ public class LList implements Iterable<Song> {
      * @param str2
      * @return Whether str2 is earlier than str1.
      */
-    private boolean foundNewEarliest(String str1, String str2) {
+    public boolean foundNewEarliest(String str1, String str2) {
         String[] str = new String[] { str1, str2 };
         String[] sorted = new String[] { str1, str2 };
         Arrays.sort(sorted);
@@ -256,10 +262,29 @@ public class LList implements Iterable<Song> {
             param[p1] = param[p2];
             param[p2] = temp;
 
-            Song sTemp = get(p1).data;
-            get(p1).data = get(p2).data;
-            get(p2).data = sTemp;
+            Node node1 = getNodeAt(p1);
+            Node node2 = getNodeAt(p2);
+
+            Song sTemp = node1.data;
+            node1.data = node2.data;
+            node2.data = sTemp;
         }
+    }
+
+
+    private Node getNodeAt(int index) {
+        if (index < 0 || size() <= index) {
+            throw new IndexOutOfBoundsException("No element exists at "
+                + index);
+        }
+
+        Node curr = head;
+
+        for (int i = 0; i < index; i++) {
+            curr = curr.next;
+        }
+
+        return curr;
     }
 
 
