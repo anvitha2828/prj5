@@ -1,0 +1,292 @@
+package prj5;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import prj5.Song;
+
+public class LList implements Iterable<Song> {
+
+    /**
+     * 
+     * @version 4/14/2015
+     * @version 9.4.15
+     * @version 10.29.15
+     * @version 10/15/2016
+     * @version 03/17/2017
+     */
+    public static class Node {
+
+        // The data element stored in the node.
+        private Song data;
+
+        // The next node in the sequence.
+        private Node next;
+
+
+        /**
+         * Creates a new node with the given data
+         *
+         * @param d
+         *            the data to put inside the node
+         */
+        public Node(Song d) {
+            data = d;
+        }
+
+
+        /**
+         * Sets the node after this node
+         *
+         * @param n
+         *            the node after this one
+         */
+        public void setNext(Node n) {
+            next = n;
+        }
+
+
+        /**
+         * Gets the next node
+         *
+         * @return the next node
+         */
+        public Node next() {
+            return next;
+        }
+
+
+        /**
+         * Gets the data in the node
+         *
+         * @return the data in the node
+         */
+        public Song getData() {
+            return data;
+        }
+
+
+        public void setData(Song data2) {
+
+        }
+    }
+
+    private Node head;
+    private int size;
+    private String[] param;
+    private LListIterator iter;
+
+
+    /**
+     * Creates a new LinkedList object
+     */
+    public LList() {
+        head = null;
+        size = 0;
+        iter = iterator();
+    }
+
+
+    /**
+     * Gets the number of elements in the list
+     *
+     * @return the number of elements
+     */
+    public int size() {
+        return size;
+    }
+
+
+    /**
+     * Adds the object to the end of the list.
+     *
+     * @precondition obj cannot be null
+     * @param obj
+     *            the object to add
+     * @throws IllegalArgumentException
+     *             if obj is null
+     */
+    public void add(Song song) {
+        if (song == null) {
+            throw new IllegalArgumentException("Cannot add null "
+                + "objects to a list");
+        }
+        int i = 0;
+        while (iter.hasNext()) {
+            iter.next();
+            i++;
+        }
+        Node nodeAfter;
+        nodeAfter = get(i);
+
+        // Node nodeAfter;
+        // nodeAfter = get(size + 1);
+        size++;
+    }
+
+
+    /**
+     * Checks if the array is empty
+     *
+     * @return true if the array is empty
+     */
+    public boolean isEmpty() {
+        return (size == 0);
+    }
+
+
+    /**
+     * Gets the object at the given position
+     *
+     * @param index
+     *            where the object is located
+     * @return The object at the given position
+     * @throws IndexOutOfBoundsException
+     *             if no node at the given index
+     */
+    public Node get(int index) {
+        if (index < 0 || size() <= index) {
+            throw new IndexOutOfBoundsException("No element exists at "
+                + index);
+        }
+        Node current = head.next(); // as we have a sentinel node
+        for (int i = 0; i < index; i++) {
+            current = current.next();
+        }
+        return current;
+    }
+
+
+    public Song getSong(int idx) {
+        return get(idx).data;
+    }
+
+
+    private void changeParam(String str) {
+
+        if (str == "title") {
+            for (int i = 0; i < size(); i++) {
+                param[i] = getSong(i).getTitle();
+            }
+        }
+        else if (str == "genre") {
+            for (int i = 0; i < size(); i++) {
+                param[i] = getSong(i).getGenre();
+            }
+        }
+        else if (str == "artist") {
+            for (int i = 0; i < size(); i++) {
+                param[i] = getSong(i).getArtist();
+            }
+        }
+        else if (str == "year") {
+            for (int i = 0; i < size(); i++) {
+                param[i] = getSong(i).getTitle();
+            }
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
+
+    }
+
+
+    /**
+     * Sorts the list by input parameter.
+     * 
+     * @param str
+     *            Song parameter by which is sorted.
+     */
+    public void sortBy(String str) {
+        changeParam(str); // param is now set according to input parameter.
+
+        for (int lh = 0; lh < size; lh++) {
+            String earliest = "";
+            int pEarliest = -1; // default values.
+            String curr;
+
+            for (int rh = lh + 1; rh < size; rh++) {
+                curr = param[rh]; // String on rh to compare.
+
+                // If earlier than earliest, new earliest.
+                if (foundNewEarliest(earliest, curr)) {
+                    earliest = curr;
+                    pEarliest = rh;
+                }
+            }
+
+            if (pEarliest != -1) {
+                // The case when lh String is already where it should be.
+                swapElements(lh, pEarliest);
+            }
+        }
+    }
+
+
+    /**
+     * Determines if second String comes earlier than the first.
+     * 
+     * @param str1
+     * @param str2
+     * @return Whether str2 is earlier than str1.
+     */
+    private boolean foundNewEarliest(String str1, String str2) {
+        String[] str = new String[] { str1, str2 };
+        String[] sorted = new String[] { str1, str2 };
+        Arrays.sort(sorted);
+        if (str[0] != sorted[0]) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Swaps the p1 and p2 entries in the param array and subsequently in the
+     * list.
+     * 
+     * @param p1
+     *            Index of first Song.
+     * @param p2
+     *            Index of second Song.
+     */
+    public void swapElements(int p1, int p2) {
+        if (p2 != p1 && p2 <= size && p1 <= size) {
+            String temp = param[p1];
+            param[p1] = param[p2];
+            param[p2] = temp;
+
+            Song sTemp = get(p1).data;
+            get(p1).data = get(p2).data;
+            get(p2).data = sTemp;
+        }
+    }
+
+
+    public LListIterator iterator() {
+        return new LListIterator();
+    }
+
+
+    private class LListIterator implements Iterator<Song> {
+
+        private Node curr;
+
+
+        public LListIterator() {
+            curr = head;
+        }
+
+
+        public boolean hasNext() {
+            return curr.next != null;
+        }
+
+
+        @Override
+        public Song next() {
+            curr = curr.next;
+            return curr.getData();
+        }
+    }
+}

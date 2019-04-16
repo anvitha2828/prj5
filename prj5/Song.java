@@ -10,6 +10,18 @@ public class Song {
     private int[][] hobbyHeardLikes;
 
 
+    /**
+     * Constructor for song
+     * 
+     * @param name
+     *            Song name
+     * @param art
+     *            artist name
+     * @param yea
+     *            year
+     * @param gen
+     *            genre
+     */
     public Song(String name, String art, int yea, String gen) {
         title = name;
         genre = gen;
@@ -21,21 +33,45 @@ public class Song {
     }
 
 
+    /**
+     * returns the title
+     * 
+     * @return String
+     *         returns Title
+     */
     public String getTitle() {
         return title;
     }
 
 
+    /**
+     * returns artist
+     * 
+     * @return String
+     *         returns artist
+     */
     public String getArtist() {
         return artist;
     }
 
 
+    /**
+     * Returns Genre
+     * 
+     * @return int
+     *         returns the year
+     */
     public int getYear() {
         return year;
     }
 
 
+    /**
+     * Returns Genre
+     * 
+     * @return String
+     *         returns the genre
+     */
     public String getGenre() {
         return genre;
     }
@@ -55,6 +91,13 @@ public class Song {
     }
 
 
+    /**
+     * returns the String version of the Song
+     * 
+     * @return String
+     *         returns the String version of the Song
+     * 
+     */
     @Override
     public String toString() {
         StringBuilder bob = new StringBuilder(getTitle());
@@ -66,6 +109,14 @@ public class Song {
     }
 
 
+    /**
+     * returns true if equal false if not
+     * 
+     * @param obj
+     *            Object to compare
+     * @return boolean
+     *         returns true if equal false if not
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
