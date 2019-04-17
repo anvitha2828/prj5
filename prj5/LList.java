@@ -5,25 +5,21 @@ import java.util.Iterator;
 import prj5.Song;
 
 /**
- * List of Songs.
- * 
  * @author Matthew Pinho
  * @author Peter Kistler
  * @author Nicholas Cardaci
  * @author Anvitha Nachiappan
- * @version 2019.04.16
  *
  */
 public class LList implements Iterable<Song> {
 
     /**
-     * Links Songs in a chain.
      * 
-     * @author Matthew Pinho
-     * @author Peter Kistler
-     * @author Nicholas Cardaci
-     * @author Anvitha Nachiappan
-     * @version 2019.04.16
+     * @version 4/14/2015
+     * @version 9.4.15
+     * @version 10.29.15
+     * @version 10/15/2016
+     * @version 03/17/2017
      */
     public static class Node {
 
@@ -150,22 +146,22 @@ public class LList implements Iterable<Song> {
      *            A field of Song class.
      */
     private void changeParam(String str) {
-        if (str == "title") {
+        if (str.equals("title")) {
             for (int i = 0; i < size; i++) {
                 param[i] = get(i).getTitle();
             }
         }
-        else if (str == "genre") {
+        else if (str.equals("genre")) {
             for (int i = 0; i < size; i++) {
                 param[i] = get(i).getGenre();
             }
         }
-        else if (str == "artist") {
+        else if (str.equals("artist")) {
             for (int i = 0; i < size; i++) {
                 param[i] = get(i).getArtist();
             }
         }
-        else if (str == "year") {
+        else if (str.equals("year")) {
             for (int i = 0; i < size; i++) {
                 param[i] = get(i).getYear();
             }
@@ -311,7 +307,7 @@ public class LList implements Iterable<Song> {
 
 
     /**
-     * Iterator for List.
+     * the
      * 
      * @author Matthew Pinho
      * @author Peter Kistler
