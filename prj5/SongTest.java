@@ -32,7 +32,7 @@ public class SongTest extends student.TestCase {
      * Tests the getYear method to ensure it acts as expected
      */
     public void testGetYear() {
-        assertEquals(s.getYear(), 2015);
+        assertEquals(s.getYear(), "2015");
     }
 
 

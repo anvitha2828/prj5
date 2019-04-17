@@ -30,7 +30,7 @@ public class DataReader {
         binary = new HashMap<String, Integer>();
         binary.put("Yes", 1);
         binary.put("No", 0);
-        binary.put("", 0);
+        binary.put(null, 0);
 
         maj = new HashMap<String, Integer>();
         maj.put("reading", 0);
@@ -51,7 +51,7 @@ public class DataReader {
         hob.put("Other", 3);
 
         readSongs(songFile);
-        readSurveys(surveyFile);
+        //readSurveys(surveyFile);
     }
 
 
