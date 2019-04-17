@@ -186,7 +186,7 @@ public class LList implements Iterable<Song> {
         }
         else if (str == "year") {
             for (int i = 0; i < size; i++) {
-                param[i] = get(i).getTitle();
+                param[i] = get(i).getYear();
             }
         }
         else {
@@ -205,8 +205,8 @@ public class LList implements Iterable<Song> {
     public void sortBy(String str) {
         changeParam(str); // param is now set according to input parameter.
 
-        for (int lh = 0; lh < size; lh++) {
-            String earliest = "";
+        for (int lh = 0; lh < size - 1; lh++) {
+            String earliest = param[lh];
             int pEarliest = -1; // default values.
             String curr;
 
@@ -236,11 +236,32 @@ public class LList implements Iterable<Song> {
      * @return Whether str2 is earlier than str1.
      */
     public boolean foundNewEarliest(String str1, String str2) {
-        String[] str = new String[] { str1, str2 };
-        String[] sorted = new String[] { str1, str2 };
-        Arrays.sort(sorted);
-        if (str[0] != sorted[0]) {
-            return true;
+        Exception thrown = null;
+        int s1 = 0;
+        int s2 = 0;
+        try {
+            s1 = Integer.parseInt(str1);
+            s2 = Integer.parseInt(str2);
+        }
+        catch (Exception e) {
+            thrown = e;
+        }
+
+        if (thrown != null) {
+            String[] str = new String[] { str1, str2 };
+            String[] sorted = new String[] { str1, str2 };
+            Arrays.sort(sorted);
+            if (str[0] != sorted[0]) {
+                return true;
+            }
+        }
+        else {
+            int[] num = new int[] { s1, s2 };
+            int[] sorted = new int[] { s1, s2 };
+            Arrays.sort(sorted);
+            if (num[0] != sorted[0]) {
+                return true;
+            }
         }
 
         return false;
@@ -310,7 +331,11 @@ public class LList implements Iterable<Song> {
 
         @Override
         public Song next() {
+<<<<<<< HEAD
             curr = curr.next();
+=======
+            curr = curr.next;
+>>>>>>> 500b59e3e7bd1bed361295b90c7e1cda145be6c3
             return curr.getData();
         }
     }
