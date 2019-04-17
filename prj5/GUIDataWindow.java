@@ -27,7 +27,7 @@ public class GUIDataWindow {
     private Button sortByGenre;
     private int pageNumber; // starts at 0.
     private String represent;
-    private final int columnWidth = 10;
+    private final int columnWidth = 5;
     private final int columnHeight = 40;
     // private final int lastPage;
     private final int barLengthFactor = 10;
@@ -194,8 +194,9 @@ public class GUIDataWindow {
      * Updates everything in GUI as needed in response to clicks on the Window.
      */
     private void update() {
-        updateLegend();
+
         updateGlyphs();
+        updateLegend();
     }
 
 
@@ -242,12 +243,13 @@ public class GUIDataWindow {
 
             enumVal1 = new TextShape(620, 120, "Reading", Color.MAGENTA);
             enumVal1.setBackgroundColor(Color.WHITE);
-            enumVal2 = new TextShape(620, 140, "Music", Color.GREEN);
-            enumVal2.setBackgroundColor(Color.WHITE);
-            enumVal3 = new TextShape(620, 160, "Sports", Color.YELLOW);
-            enumVal3.setBackgroundColor(Color.WHITE);
-            enumVal4 = new TextShape(620, 180, "Art", Color.BLUE);
+            enumVal4 = new TextShape(620, 140, "Art", Color.BLUE);
             enumVal4.setBackgroundColor(Color.WHITE);
+            enumVal3 = new TextShape(620, 160, "Sports", Color.ORANGE);
+            enumVal3.setBackgroundColor(Color.WHITE);
+            enumVal2 = new TextShape(620, 180, "Music", Color.GREEN);
+            enumVal2.setBackgroundColor(Color.WHITE);
+
         }
 
         window.addShape(title);
@@ -297,42 +299,76 @@ public class GUIDataWindow {
      */
     private void generateGlyph(int x, int y, Song song) {
         // generate column
-        int xPos = (int)((x + 1) * .25 * window.getGraphPanelWidth()
+        int xPos = (int)((x + .45) * .28 * window.getGraphPanelWidth()
             - columnWidth / 2);
-        int yPos = (int)((y + 1) * .25 * window.getGraphPanelHeight());
-        window.addShape(new Shape(xPos, yPos, columnWidth, columnHeight));
+        int yPos = (int)((y + .75) * .28 * window.getGraphPanelHeight());
+        window.addShape(new Shape(xPos, yPos, columnWidth, columnHeight,
+            Color.BLACK));
+
+        int xLike = xPos + columnWidth;
 
         // generate bars
-        int[][] info = new int[4][2];// song.getInfo(represent);
+        int[][] info = song.getInfo(represent);
+
+        int xMagentaH = 30;// barLength(info[0][0]);
+        int xBlueH = 10; // barLength(info[1][0]);
+        int xOrangeH = 25;// barLength(info[2][0]);
+        int xGreenH = 10;
+        // barLength(info[3][0]);
+
+        int xMagentaL = 20;
+        // barLength(info[0][1]);
+        int xBlueL = 40;
+        // barLength(info[1][1]);
+        int xOrangeL = 25;
+        // barLength(info[2][1]);
+        int xGreenL = 40;
+        // barLength(info[3][1]);
 
         // heards bars
-        Shape pinkH = new Shape(10, 10, barLength(info[0][0]), barWidth,
+        Shape magentaH = new Shape(xPos - xMagentaH, yPos, xMagentaH, barWidth,
             Color.MAGENTA);
-        Shape blueH = new Shape(10, 10, barLength(info[1][0]), barWidth,
-            Color.BLUE);
-        Shape orangeH = new Shape(10, 10, barLength(info[2][0]), barWidth,
-            Color.ORANGE);
-        Shape greenH = new Shape(10, 10, barLength(info[3][0]), barWidth,
-            Color.GREEN);
+        Shape blueH = new Shape(xPos - xBlueH, yPos + barWidth, xBlueH,
+            barWidth, Color.BLUE);
+        Shape orangeH = new Shape(xPos - xOrangeH, yPos + 2 * barWidth,
+            xOrangeH, barWidth, Color.ORANGE);
+        Shape greenH = new Shape(xPos - xGreenH, yPos + 3 * barWidth, xGreenH,
+            barWidth, Color.GREEN);
 
         // likes bars
-        Shape pinkL = new Shape(10, 10, barLength(info[0][1]), barWidth,
+        Shape magentaL = new Shape(xLike, yPos, xMagentaL, barWidth,
             Color.MAGENTA);
-        Shape blueL = new Shape(10, 10, barLength(info[1][1]), barWidth,
+        Shape blueL = new Shape(xLike, yPos + barWidth, xBlueL, barWidth,
             Color.BLUE);
-        Shape orangeL = new Shape(10, 10, barLength(info[2][1]), barWidth,
-            Color.ORANGE);
-        Shape greenL = new Shape(10, 10, barLength(info[3][1]), barWidth,
+        Shape orangeL = new Shape(xLike, yPos + 2 * barWidth, xOrangeL,
+            barWidth, Color.ORANGE);
+        Shape greenL = new Shape(xLike, yPos + 3 * barWidth, xGreenL, barWidth,
             Color.GREEN);
 
         // add TextShape description
-        window.addShape(new TextShape(xPos, yPos + 5, song.getTitle()));
-        window.addShape(pinkH);
+        String description = song.getTitle();
+        if (represent != "title") {
+            description += " " + song.getTitle();
+        }
+        if (represent == "hobby") {
+
+        }
+
+        TextShape title = new TextShape(xPos, yPos - 35, song.getTitle());
+        title.setBackgroundColor(Color.WHITE);
+        title.setX(title.getX() - title.getWidth() / 2);
+        TextShape artist = new TextShape(xPos, yPos - 20, "by " + song
+            .getArtist());
+        artist.setBackgroundColor(Color.WHITE);
+        artist.setX(artist.getX() - artist.getWidth() / 2);
+        window.addShape(title);
+        window.addShape(artist);
+        window.addShape(magentaH);
         window.addShape(blueH);
         window.addShape(orangeH);
         window.addShape(greenH);
 
-        window.addShape(pinkL);
+        window.addShape(magentaL);
         window.addShape(blueL);
         window.addShape(orangeL);
         window.addShape(greenL);
