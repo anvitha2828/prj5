@@ -1,5 +1,15 @@
 package prj5;
 
+/**
+ * This is the SongTest class. Tests the song class to ensure it acts as
+ * expected.
+ * 
+ * @author Anvitha Nachiappan <anvitha>
+ * @author Nicholas Cardaci <nicho17>
+ * @author Matthew Pinho <mpinho16>
+ * @author Peter Kistler <pdblvkis>
+ *
+ */
 public class SongTest extends student.TestCase {
     private Song s;
 
@@ -52,6 +62,9 @@ public class SongTest extends student.TestCase {
     }
 
 
+    /**
+     * Tests getInfo to ensure it acts as expected
+     */
     public void testGetInfo() {
         assertNotNull(s.getInfo("major"));
         assertNotNull(s.getInfo("state"));
