@@ -30,28 +30,31 @@ public class DataReader {
         binary = new HashMap<String, Integer>();
         binary.put("Yes", 1);
         binary.put("No", 0);
-        binary.put(null, 0);
+        binary.put("", 0);
 
         maj = new HashMap<String, Integer>();
-        maj.put("reading", 0);
-        maj.put("art", 1);
-        maj.put("sports", 2);
-        maj.put("music", 3);
+        maj.put("Computer Science", 0);
+        maj.put("Other Engineering", 1);
+        maj.put("Math or CMDA", 2);
+        maj.put("Other", 3);
+        maj.put("", 0);
 
         stt = new HashMap<String, Integer>();
         stt.put("Southeast", 0);
         stt.put("Northeast", 1);
         stt.put("United States (other than Southeast or Northwest)", 2);
         stt.put("Outside of United States", 3);
+        stt.put("", 0);
 
         hob = new HashMap<String, Integer>();
-        hob.put("Computer Science", 0);
-        hob.put("Other Engineering", 1);
-        hob.put("Math or CMDA", 2);
-        hob.put("Other", 3);
+        hob.put("reading", 0);
+        hob.put("art", 1);
+        hob.put("sports", 2);
+        hob.put("music", 3);
+        hob.put("", 0);
 
         readSongs(songFile);
-        //readSurveys(surveyFile);
+        readSurveys(surveyFile);
     }
 
 
@@ -91,34 +94,49 @@ public class DataReader {
      *            the name of the file to read
      * @throws FileNotFoundException
      */
-    public void readSurveys(String fN) throws FileNotFoundException {
+    private void readSurveys(String fN) throws FileNotFoundException {
         @SuppressWarnings("resource")
         Scanner scanWoo = new Scanner(new File(fN));
         scanWoo.nextLine();
         while (scanWoo.hasNextLine()) {
-            int cnt = 0;
             String thisGuy = scanWoo.nextLine();
-            String[] chopped = thisGuy.split(",", -1);
-
-            int majInt = maj.get(chopped[2]);
-            int sttInt = maj.get(chopped[3]);
-            int hobInt = maj.get(chopped[4]);
-
-            for (int i = 5; i < chopped.length; i += 2) {
-                songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(
-                    chopped[i]);
-                songBank.get(cnt).getInfo("major")[majInt][1] += binary.get(
-                    chopped[i + 1]);
-                songBank.get(cnt).getInfo("state")[sttInt][0] += binary.get(
-                    chopped[i]);
-                songBank.get(cnt).getInfo("state")[sttInt][1] += binary.get(
-                    chopped[i + 1]);
-                songBank.get(cnt).getInfo("hobby")[hobInt][0] += binary.get(
-                    chopped[i]);
-                songBank.get(cnt).getInfo("hobby")[hobInt][1] += binary.get(
-                    chopped[i + 1]);
-            } // end for i
-            cnt++;
+            addShit(thisGuy);
         } // end while
     } // end readSurveys
+
+
+    /**
+     * adds heards and likes and the like
+     * 
+     * @param thisGuy
+     *            the string that is passed in ya cuny
+     */
+    private void addShit(String thisGuy) {
+        int cnt = 0;
+        String[] chopped = thisGuy.split(",", -1);
+
+        int majInt = maj.get(chopped[2]);
+        int sttInt = stt.get(chopped[3]);
+        int hobInt = hob.get(chopped[4]);
+        
+        int j = 0;
+        for (int i = 5; i < chopped.length; i += 2) {
+            System.out.println("[" + j++ + "]");
+            if (binary.get(chopped[i]) != null && chopped[i] != null) {
+                songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(chopped[i]);
+                songBank.get(cnt).getInfo("state")[sttInt][0] += binary.get(chopped[i]);
+                songBank.get(cnt).getInfo("hobby")[hobInt][0] += binary.get(chopped[i]);
+            } // end if
+            if (binary.get(chopped[i + 1]) != null && chopped[i + 1] != null) {
+                songBank.get(cnt).getInfo("major")[majInt][1] += binary.get(
+                    chopped[i + 1]);
+                songBank.get(cnt).getInfo("state")[sttInt][1] += binary.get(
+                    chopped[i + 1]);
+                songBank.get(cnt).getInfo("hobby")[hobInt][1] += binary.get(
+                    chopped[i + 1]);
+            } // end if
+        } // end for i
+        j = 0;
+        cnt++;
+    }
 }
