@@ -310,9 +310,17 @@ public class LList implements Iterable<Song> {
 
         @Override
         public Song next() {
-            curr = curr.next();
             curr = curr.next;
             return curr.getData();
+        }
+    }
+
+
+    public void clear() {
+        if (head != null) {
+            head.setNext(null);
+            head = null;
+            size = 0;
         }
     }
 }
