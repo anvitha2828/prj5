@@ -51,14 +51,6 @@ public class DataReaderTest extends student.TestCase {
         assertEquals(
             "The Flight of the Bumblebee, Rimsky-Korsakov, 1899, Classical.",
             phil.getSongs().get(71).toString());
-        
-        
-        
-        
-        assertEquals(0, phil.getSongs().get(0).getInfo("major")[1][0]);
-        assertEquals(0, phil.getSongs().get(0).getInfo("major")[2][0]);
-        assertEquals(0, phil.getSongs().get(0).getInfo("major")[3][0]);
-        assertEquals(0, phil.getSongs().get(0).getInfo("major")[0][0]);
     }
 
 }

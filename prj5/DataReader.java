@@ -12,6 +12,7 @@ public class DataReader {
     private HashMap<String, Integer> maj;
     private HashMap<String, Integer> stt;
     private HashMap<String, Integer> hob;
+    private int cnt;
 
 
     /**
@@ -99,6 +100,7 @@ public class DataReader {
         Scanner scanWoo = new Scanner(new File(fN));
         scanWoo.nextLine();
         while (scanWoo.hasNextLine()) {
+            cnt = 0;
             String thisGuy = scanWoo.nextLine();
             addShit(thisGuy);
         } // end while
@@ -112,16 +114,13 @@ public class DataReader {
      *            the string that is passed in ya cuny
      */
     private void addShit(String thisGuy) {
-        int cnt = 0;
         String[] chopped = thisGuy.split(",", -1);
 
         int majInt = maj.get(chopped[2]);
         int sttInt = stt.get(chopped[3]);
         int hobInt = hob.get(chopped[4]);
         
-        int j = 0;
         for (int i = 5; i < chopped.length; i += 2) {
-            System.out.println("[" + j++ + "]");
             if (binary.get(chopped[i]) != null && chopped[i] != null) {
                 songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(chopped[i]);
                 songBank.get(cnt).getInfo("state")[sttInt][0] += binary.get(chopped[i]);
@@ -135,8 +134,7 @@ public class DataReader {
                 songBank.get(cnt).getInfo("hobby")[hobInt][1] += binary.get(
                     chopped[i + 1]);
             } // end if
+            cnt++;
         } // end for i
-        j = 0;
-        cnt++;
     }
 }
