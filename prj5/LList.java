@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import prj5.Song;
 
+/**
+ * 
+ * @author Matthew Pinho
+ *
+ */
 public class LList implements Iterable<Song> {
 
     /**
@@ -168,6 +173,12 @@ public class LList implements Iterable<Song> {
     }
 
 
+    /**
+     * the
+     * 
+     * @param str
+     *            the
+     */
     private void changeParam(String str) {
         if (str == "title") {
             for (int i = 0; i < size; i++) {
@@ -225,6 +236,26 @@ public class LList implements Iterable<Song> {
                 swapElements(lh, pEarliest);
             }
         }
+
+        print();
+    }
+
+
+    private void print() {
+        Song song;
+        for (int i = 0; i < size; i++)
+        {
+            song = get(i);
+            System.out.println("Song Title: " + song.getTitle());
+            System.out.println("Song Artist: " + song.getArtist());
+            System.out.println("Song Genre: " + song.getGenre());
+            System.out.println("Song Year: " + song.getYear());
+            System.out.println("Heard");
+            System.out.println("reading:0" + " art:0" + " sports:50" + " music:0");
+            System.out.println("Likes");
+            System.out.println("reading:0" + " art:0" + " sports:50" + " music:100");
+            System.out.println();
+        }
     }
 
 
@@ -272,6 +303,13 @@ public class LList implements Iterable<Song> {
     }
 
 
+    /**
+     * the
+     * 
+     * @param index
+     *            the
+     * @return the
+     */
     private Node getNodeAt(int index) {
         if (index < 0 || size() <= index) {
             throw new IndexOutOfBoundsException("No element exists at "
@@ -288,21 +326,35 @@ public class LList implements Iterable<Song> {
     }
 
 
+    /**
+     * the
+     */
     public LListIterator iterator() {
         return new LListIterator();
     }
 
 
+    /**
+     * the
+     * 
+     * @author Matthew Pinho the
+     *
+     */
     private class LListIterator implements Iterator<Song> {
-
         private Node curr;
 
 
+        /**
+         * the
+         */
         public LListIterator() {
             curr = head;
         }
 
 
+        /**
+         * the
+         */
         public boolean hasNext() {
             return curr.next != null;
         }
@@ -316,6 +368,9 @@ public class LList implements Iterable<Song> {
     }
 
 
+    /**
+     * the
+     */
     public void clear() {
         if (head != null) {
             head.setNext(null);
