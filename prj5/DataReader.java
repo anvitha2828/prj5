@@ -32,6 +32,7 @@ public class DataReader {
         binary.put("Yes", 1);
         binary.put("No", 0);
         binary.put("", 0);
+        binary.put(null, 0);
 
         maj = new HashMap<String, Integer>();
         maj.put("Computer Science", 0);
@@ -39,6 +40,7 @@ public class DataReader {
         maj.put("Math or CMDA", 2);
         maj.put("Other", 3);
         maj.put("", 0);
+        maj.put(null, 0);
 
         stt = new HashMap<String, Integer>();
         stt.put("Southeast", 0);
@@ -46,6 +48,7 @@ public class DataReader {
         stt.put("United States (other than Southeast or Northwest)", 2);
         stt.put("Outside of United States", 3);
         stt.put("", 0);
+        stt.put(null, 0);
 
         hob = new HashMap<String, Integer>();
         hob.put("reading", 0);
@@ -53,9 +56,13 @@ public class DataReader {
         hob.put("sports", 2);
         hob.put("music", 3);
         hob.put("", 0);
+        hob.put(null, 0);
 
-        readSongs(songFile);
         readSurveys(surveyFile);
+        readSongs(songFile);
+        System.out.println("reading" + percentageRead() + " art"
+            + percentageArt() + " sports" + percentageSport() + " music"
+            + percentageMusic());
     }
 
 
@@ -76,7 +83,7 @@ public class DataReader {
      *            the name of the file to read
      * @throws FileNotFoundException
      */
-    private void readSongs(String fN) throws FileNotFoundException {
+    private void readSurveys(String fN) throws FileNotFoundException {
         @SuppressWarnings("resource")
         Scanner scanWee = new Scanner(new File(fN));
         scanWee.nextLine();
@@ -95,7 +102,7 @@ public class DataReader {
      *            the name of the file to read
      * @throws FileNotFoundException
      */
-    private void readSurveys(String fN) throws FileNotFoundException {
+    private void readSongs(String fN) throws FileNotFoundException {
         @SuppressWarnings("resource")
         Scanner scanWoo = new Scanner(new File(fN));
         scanWoo.nextLine();
@@ -140,5 +147,61 @@ public class DataReader {
             } // end if
             cnt++;
         } // end for i
+    }
+    
+    
+    /**
+     * percent 
+     */
+    private int percentageRead() {
+        int j = 0;
+        int tot = 0;
+        for (int i = 0; i < songBank.size(); i++) {
+            j += songBank.get(i).getInfo("hobby")[0][0];
+            tot++;
+        }
+        return j / tot;
+    }
+    
+    
+    /**
+     * percent 
+     */
+    private int percentageArt() {
+        int j = 0;
+        int tot = 0;
+        for (int i = 0; i < songBank.size(); i++) {
+            j += songBank.get(i).getInfo("hobby")[0][0];
+            tot++;
+        }
+        return j / tot;
+    }
+    
+    
+    /**
+     * percent 
+     */
+    private int percentageMusic() {
+        int j = 0;
+        int tot = 0;
+        for (int i = 0; i < songBank.size(); i++) {
+            j += songBank.get(i).getInfo("hobby")[0][0];
+            tot++;
+        }
+        return j / tot;
+    }
+    
+    
+    /**
+     * percent 
+     */
+    private int percentageSport() {
+        int j = 0;
+        int tot = 0;
+        for (int i = 0; i < songBank.size(); i++) {
+            j += songBank.get(i).getInfo("hobby")[0][0];
+            tot++;
+        }
+        return j / tot;
     }
 }
