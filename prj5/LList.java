@@ -31,47 +31,11 @@ public class LList implements Iterable<Song> {
         /**
          * Creates a new node with the given data
          *
-         * @param d
-         *            the data to put inside the node
+         * @param song
+         *            The data to put inside the node
          */
-        public Node(Song d) {
-            data = d;
-        }
-
-
-        /**
-         * Sets the node after this node
-         *
-         * @param n
-         *            the node after this one
-         */
-        public void setNext(Node n) {
-            next = n;
-        }
-
-
-        /**
-         * Gets the next node
-         *
-         * @return the next node
-         */
-        public Node next() {
-            return next;
-        }
-
-
-        /**
-         * Gets the data in the node
-         *
-         * @return the data in the node
-         */
-        public Song getData() {
-            return data;
-        }
-
-
-        public void setData(Song data2) {
-
+        public Node(Song song) {
+            data = song;
         }
     }
 
@@ -174,10 +138,10 @@ public class LList implements Iterable<Song> {
 
 
     /**
-     * the
+     * Changes the parameter array to input field of Song class.
      * 
      * @param str
-     *            the
+     *            A field of Song class.
      */
     private void changeParam(String str) {
         if (str == "title") {
@@ -241,19 +205,23 @@ public class LList implements Iterable<Song> {
     }
 
 
+    /**
+     * Prints songs from list in order after sortation.
+     */
     private void print() {
         Song song;
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             song = get(i);
             System.out.println("Song Title: " + song.getTitle());
             System.out.println("Song Artist: " + song.getArtist());
             System.out.println("Song Genre: " + song.getGenre());
             System.out.println("Song Year: " + song.getYear());
             System.out.println("Heard");
-            System.out.println("reading:0" + " art:0" + " sports:50" + " music:0");
+            System.out.println("reading:0" + " art:0" + " sports:50"
+                + " music:0");
             System.out.println("Likes");
-            System.out.println("reading:0" + " art:0" + " sports:50" + " music:100");
+            System.out.println("reading:0" + " art:0" + " sports:50"
+                + " music:100");
             System.out.println();
         }
     }
@@ -304,11 +272,11 @@ public class LList implements Iterable<Song> {
 
 
     /**
-     * the
+     * Returns the node at given index.
      * 
      * @param index
-     *            the
-     * @return the
+     *            Index which node is at.
+     * @return Returns node at input index.
      */
     private Node getNodeAt(int index) {
         if (index < 0 || size() <= index) {
@@ -327,7 +295,9 @@ public class LList implements Iterable<Song> {
 
 
     /**
-     * the
+     * Returns a new LListerator.
+     * 
+     * @return new LListIterator.
      */
     public LListIterator iterator() {
         return new LListIterator();
@@ -337,24 +307,22 @@ public class LList implements Iterable<Song> {
     /**
      * the
      * 
-     * @author Matthew Pinho the
+     * @author Matthew Pinho
+     * @author Peter Kistler
+     * @author Nicholas Cardaci
+     * @author Anvitha Nachiappan
+     * @version 2019.04.16
      *
      */
     private class LListIterator implements Iterator<Song> {
         private Node curr;
 
 
-        /**
-         * the
-         */
         public LListIterator() {
             curr = head;
         }
 
 
-        /**
-         * the
-         */
         public boolean hasNext() {
             return curr.next != null;
         }
@@ -363,17 +331,17 @@ public class LList implements Iterable<Song> {
         @Override
         public Song next() {
             curr = curr.next;
-            return curr.getData();
+            return curr.data;
         }
     }
 
 
     /**
-     * the
+     * Clears the entire list.
      */
     public void clear() {
         if (head != null) {
-            head.setNext(null);
+            head.next = null;
             head = null;
             size = 0;
         }
