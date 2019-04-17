@@ -236,32 +236,11 @@ public class LList implements Iterable<Song> {
      * @return Whether str2 is earlier than str1.
      */
     public boolean foundNewEarliest(String str1, String str2) {
-        Exception thrown = null;
-        int s1 = 0;
-        int s2 = 0;
-        try {
-            s1 = Integer.parseInt(str1);
-            s2 = Integer.parseInt(str2);
-        }
-        catch (Exception e) {
-            thrown = e;
-        }
-
-        if (thrown != null) {
-            String[] str = new String[] { str1, str2 };
-            String[] sorted = new String[] { str1, str2 };
-            Arrays.sort(sorted);
-            if (str[0] != sorted[0]) {
-                return true;
-            }
-        }
-        else {
-            int[] num = new int[] { s1, s2 };
-            int[] sorted = new int[] { s1, s2 };
-            Arrays.sort(sorted);
-            if (num[0] != sorted[0]) {
-                return true;
-            }
+        String[] str = new String[] { str1, str2 };
+        String[] sorted = new String[] { str1, str2 };
+        Arrays.sort(sorted);
+        if (str[0] != sorted[0]) {
+            return true;
         }
 
         return false;
