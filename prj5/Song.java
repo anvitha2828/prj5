@@ -1,5 +1,15 @@
 package prj5;
 
+/**
+ * This is the song class. Allows user to make a song object with title, genre,
+ * artist, and year
+ * 
+ * @author Anvitha Nachiappan <anvitha>
+ * @author Nicholas Cardaci <nicho17>
+ * @author Matthew Pinho <mpinho16>
+ * @author Peter Kistler <pdblvkis>
+ *
+ */
 public class Song {
     private String title;
     private String genre;
@@ -75,8 +85,16 @@ public class Song {
     public String getGenre() {
         return genre;
     }
-    
-    
+
+
+    /**
+     * returns the array of heards and likes
+     * 
+     * @param s
+     *            specifies the major, state, or hobby
+     * @return int[][]
+     *         2D array value containing number of likes and heard
+     */
     public int[][] getInfo(String s) {
         if (s == "major") {
             return majorHeardLikes;
