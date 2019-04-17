@@ -102,7 +102,7 @@ public class DataReader {
         while (scanWoo.hasNextLine()) {
             cnt = 0;
             String thisGuy = scanWoo.nextLine();
-            addShit(thisGuy);
+            addJeroos(thisGuy);
         } // end while
     } // end readSurveys
 
@@ -113,18 +113,22 @@ public class DataReader {
      * @param thisGuy
      *            the string that is passed in ya cuny
      */
-    private void addShit(String thisGuy) {
+    private void addJeroos(String thisGuy) {
         String[] chopped = thisGuy.split(",", -1);
 
+        // these are the indices for which we count this iteration of the loop
         int majInt = maj.get(chopped[2]);
         int sttInt = stt.get(chopped[3]);
         int hobInt = hob.get(chopped[4]);
-        
+
         for (int i = 5; i < chopped.length; i += 2) {
             if (binary.get(chopped[i]) != null && chopped[i] != null) {
-                songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(chopped[i]);
-                songBank.get(cnt).getInfo("state")[sttInt][0] += binary.get(chopped[i]);
-                songBank.get(cnt).getInfo("hobby")[hobInt][0] += binary.get(chopped[i]);
+                songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(
+                    chopped[i]);
+                songBank.get(cnt).getInfo("state")[sttInt][0] += binary.get(
+                    chopped[i]);
+                songBank.get(cnt).getInfo("hobby")[hobInt][0] += binary.get(
+                    chopped[i]);
             } // end if
             if (binary.get(chopped[i + 1]) != null && chopped[i + 1] != null) {
                 songBank.get(cnt).getInfo("major")[majInt][1] += binary.get(
