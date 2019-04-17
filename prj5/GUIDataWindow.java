@@ -40,7 +40,7 @@ public class GUIDataWindow {
      * @param songs
      */
     public GUIDataWindow(LList songs) {
-        songTest = new Song("Hotline Bling", "Drake", 2015, "R&B");
+        songTest = new Song("Hotline Bling", "Drake", "2015", "R&B");
         represent = "hobby";
         list = songs;
         // lastPage = (int)Math.ceil(list.size() / 9);
@@ -306,23 +306,23 @@ public class GUIDataWindow {
         int[][] info = new int[4][2];// song.getInfo(represent);
 
         // heards bars
-        Shape pinkH = new Shape(10, 10, barLength(info[1][1]), barWidth,
+        Shape pinkH = new Shape(10, 10, barLength(info[0][0]), barWidth,
             Color.MAGENTA);
-        Shape blueH = new Shape(10, 10, barLength(info[2][1]), barWidth,
+        Shape blueH = new Shape(10, 10, barLength(info[1][0]), barWidth,
             Color.BLUE);
-        Shape orangeH = new Shape(10, 10, barLength(info[3][1]), barWidth,
+        Shape orangeH = new Shape(10, 10, barLength(info[2][0]), barWidth,
             Color.ORANGE);
-        Shape greenH = new Shape(10, 10, barLength(info[4][1]), barWidth,
+        Shape greenH = new Shape(10, 10, barLength(info[3][0]), barWidth,
             Color.GREEN);
 
         // likes bars
-        Shape pinkL = new Shape(10, 10, barLength(info[1][2]), barWidth,
+        Shape pinkL = new Shape(10, 10, barLength(info[0][1]), barWidth,
             Color.MAGENTA);
-        Shape blueL = new Shape(10, 10, barLength(info[2][2]), barWidth,
+        Shape blueL = new Shape(10, 10, barLength(info[1][1]), barWidth,
             Color.BLUE);
-        Shape orangeL = new Shape(10, 10, barLength(info[3][2]), barWidth,
+        Shape orangeL = new Shape(10, 10, barLength(info[2][1]), barWidth,
             Color.ORANGE);
-        Shape greenL = new Shape(10, 10, barLength(info[4][2]), barWidth,
+        Shape greenL = new Shape(10, 10, barLength(info[3][1]), barWidth,
             Color.GREEN);
 
         // add TextShape description
