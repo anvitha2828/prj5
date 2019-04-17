@@ -5,19 +5,25 @@ import java.util.Iterator;
 import prj5.Song;
 
 /**
+ * List of Songs.
  * 
  * @author Matthew Pinho
+ * @author Peter Kistler
+ * @author Nicholas Cardaci
+ * @author Anvitha Nachiappan
+ * @version 2019.04.16
  *
  */
 public class LList implements Iterable<Song> {
 
     /**
+     * Links Songs in a chain.
      * 
-     * @version 4/14/2015
-     * @version 9.4.15
-     * @version 10.29.15
-     * @version 10/15/2016
-     * @version 03/17/2017
+     * @author Matthew Pinho
+     * @author Peter Kistler
+     * @author Nicholas Cardaci
+     * @author Anvitha Nachiappan
+     * @version 2019.04.16
      */
     public static class Node {
 
@@ -305,7 +311,7 @@ public class LList implements Iterable<Song> {
 
 
     /**
-     * the
+     * Iterator for List.
      * 
      * @author Matthew Pinho
      * @author Peter Kistler
