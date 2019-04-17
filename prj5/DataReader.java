@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class DataReader {
 
-    private LListSong<Song> songBank;
+    private LList songBank;
     private HashMap<String, Integer> binary;
     private HashMap<String, Integer> maj;
     private HashMap<String, Integer> stt;
@@ -25,7 +25,7 @@ public class DataReader {
      */
     public DataReader(String songFile, String surveyFile)
         throws FileNotFoundException {
-        songBank = new LListSong<Song>();
+        songBank = new LList();
         
         binary = new HashMap<String, Integer>();
         binary.put("Yes", 1);
@@ -53,6 +53,16 @@ public class DataReader {
         readSongs(songFile);
         readSurveys(surveyFile);
     }
+    
+    
+    /**
+     * getter method for the LList of songs
+     * 
+     * @return the songBank field
+     */
+    public LList getSongs() {
+        return songBank;
+    }
 
 
     /**
@@ -62,17 +72,15 @@ public class DataReader {
      *            the name of the file to read
      * @throws FileNotFoundException
      */
-    public LListSong<Song> readSongs(String fN) throws FileNotFoundException {
+    private void readSongs(String fN) throws FileNotFoundException {
         @SuppressWarnings("resource")
         Scanner scanWee = new Scanner(new File(fN));
         scanWee.nextLine();
         while (scanWee.hasNextLine()) {
             String parcel = scanWee.nextLine();
-            String[] parsed = parcel.split(",*", -1);
-            songBank.add(new Song(parsed[0], parsed[1], Integer.parseInt(
-                parsed[2]), parsed[3]));
-        }
-        return songBank;
+            String[] parsed = parcel.split(",", -1);
+            songBank.add(new Song(parsed[0], parsed[1], parsed[2], parsed[3]));
+        } // end while
     }
 
 
@@ -83,31 +91,31 @@ public class DataReader {
      *            the name of the file to read
      * @throws FileNotFoundException
      */
-    private void readSurveys(String fN) throws FileNotFoundException {
+    public void readSurveys(String fN) throws FileNotFoundException {
         @SuppressWarnings("resource")
         Scanner scanWoo = new Scanner(new File(fN));
         scanWoo.nextLine();
         while (scanWoo.hasNextLine()) {
             int cnt = 0;
             String thisGuy = scanWoo.nextLine();
-            String[] chopped = thisGuy.split(",*");
+            String[] chopped = thisGuy.split(",", -1);
             
             int majInt = maj.get(chopped[2]);
             int sttInt = maj.get(chopped[3]);
             int hobInt = maj.get(chopped[4]);
             
             for (int i = 5; i < chopped.length; i += 2) {
-                songBank.getSong(cnt).getInfo("major")[majInt][0] += binary.get(
+                songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(
                     chopped[i]);
-                songBank.getSong(cnt).getInfo("major")[majInt][1] += binary.get(
+                songBank.get(cnt).getInfo("major")[majInt][1] += binary.get(
                     chopped[i + 1]);
-                songBank.getSong(cnt).getInfo("state")[sttInt][0] += binary.get(
+                songBank.get(cnt).getInfo("state")[sttInt][0] += binary.get(
                     chopped[i]);
-                songBank.getSong(cnt).getInfo("state")[sttInt][1] += binary.get(
+                songBank.get(cnt).getInfo("state")[sttInt][1] += binary.get(
                     chopped[i + 1]);
-                songBank.getSong(cnt).getInfo("hobby")[hobInt][0] += binary.get(
+                songBank.get(cnt).getInfo("hobby")[hobInt][0] += binary.get(
                     chopped[i]);
-                songBank.getSong(cnt).getInfo("hobby")[hobInt][1] += binary.get(
+                songBank.get(cnt).getInfo("hobby")[hobInt][1] += binary.get(
                     chopped[i + 1]);
             } // end for i
             cnt++;

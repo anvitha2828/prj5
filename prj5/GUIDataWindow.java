@@ -254,7 +254,7 @@ public class GUIDataWindow {
 
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                song = list.getSong(pageNumber + i);
+                song = list.get(pageNumber + i);
                 generateGlyph(x, y, song);
                 i++;
 

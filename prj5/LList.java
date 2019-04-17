@@ -310,7 +310,7 @@ public class LList implements Iterable<Song> {
 
         @Override
         public Song next() {
-            curr = curr.nxt;
+            curr = curr.next();
             return curr.getData();
         }
     }

@@ -1,15 +1,26 @@
 package prj5;
 
+import java.io.FileNotFoundException;
+
 public class Input {
-    private static DataReader dr;
 
 
     public static void main(String[] args) {
         if (args.length == 2) {
-            dr = new DataReader(args[1], args[2]);
+            try {
+                new DataReader(args[0], args[1]);
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         else {
-            dr = new DataReader("?????", "???????");
+            try {
+                new DataReader("SongList2018.csv", "MusicSurveyData2018.csv");
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
