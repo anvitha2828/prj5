@@ -8,7 +8,7 @@ public class SongTest extends student.TestCase {
      * sets up a song object to be tested later
      */
     public void setUp() {
-        s = new Song("Hotline Bling", "Drake", 2015, "R&B");
+        s = new Song("Hotline Bling", "Drake", "2015", "R&B");
     }
 
 
@@ -61,11 +61,11 @@ public class SongTest extends student.TestCase {
         obj = null;
         assertFalse(s.equals(obj));
         assertTrue(s.equals(s));
-        Song song = new Song("Hotline Bling", "Drake", 2015, "R&B");
+        Song song = new Song("Hotline Bling", "Drake", "2015", "R&B");
         assertTrue(s.equals(song));
-        Song song1 = new Song("Hotline Bling", "Drake", 2011, "R&B");
+        Song song1 = new Song("Hotline Bling", "Drake", "2011", "R&B");
         assertFalse(s.equals(song1));
-        Song song2 = new Song("Hotline Blong", "Drake", 2015, "R&B");
+        Song song2 = new Song("Hotline Blong", "Drake", "2015", "R&B");
         assertFalse(s.equals(song2));
 
     }

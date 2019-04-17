@@ -331,11 +331,8 @@ public class LList implements Iterable<Song> {
 
         @Override
         public Song next() {
-<<<<<<< HEAD
             curr = curr.next();
-=======
             curr = curr.next;
->>>>>>> 500b59e3e7bd1bed361295b90c7e1cda145be6c3
             return curr.getData();
         }
     }

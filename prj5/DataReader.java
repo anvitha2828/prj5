@@ -26,7 +26,7 @@ public class DataReader {
     public DataReader(String songFile, String surveyFile)
         throws FileNotFoundException {
         songBank = new LList();
-        
+
         binary = new HashMap<String, Integer>();
         binary.put("Yes", 1);
         binary.put("No", 0);
@@ -49,12 +49,12 @@ public class DataReader {
         hob.put("Other Engineering", 1);
         hob.put("Math or CMDA", 2);
         hob.put("Other", 3);
-        
+
         readSongs(songFile);
         readSurveys(surveyFile);
     }
-    
-    
+
+
     /**
      * getter method for the LList of songs
      * 
@@ -99,11 +99,11 @@ public class DataReader {
             int cnt = 0;
             String thisGuy = scanWoo.nextLine();
             String[] chopped = thisGuy.split(",", -1);
-            
+
             int majInt = maj.get(chopped[2]);
             int sttInt = maj.get(chopped[3]);
             int hobInt = maj.get(chopped[4]);
-            
+
             for (int i = 5; i < chopped.length; i += 2) {
                 songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(
                     chopped[i]);
