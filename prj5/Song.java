@@ -118,12 +118,73 @@ public class Song {
      */
     @Override
     public String toString() {
-        StringBuilder bob = new StringBuilder(getTitle());
-        bob.append(", " + getArtist());
-        bob.append(", " + getYear());
-        bob.append(", " + getGenre());
-        bob.append(".");
+        StringBuilder bob = new StringBuilder("song title " + getTitle());
+        bob.append("\n" + "song artist " + getArtist());
+        bob.append("\n" + "song genre " + getGenre());
+        bob.append("\n" + "year " + getYear());
+        bob.append("\n" + "heard" + "\n");
+        bob.append("reading" + percentageRead() + " art" + percentageArt()
+            + " sports" + percentageSport() + " music" + percentageMusic());
+        bob.append("\n" + "likes" + "\n");
+        bob.append("reading" + percentageRead() + " art" + percentageArt()
+        + " sports" + percentageSport() + " music" + percentageMusic());
         return bob.toString();
+    }
+    
+    
+    /**
+     * percent 
+     */
+    private int percentageRead() {
+        int j = 0;
+        int tot = 0;
+            j += getInfo("hobby")[0][0];
+            tot += getInfo("hobby")[0][1];
+        if (tot == 0)
+            tot = 1;
+        return j / tot * 100;
+    }
+    
+    
+    /**
+     * percent 
+     */
+    private int percentageArt() {
+        int j = 0;
+        int tot = 0;
+            j += getInfo("hobby")[1][0];
+            tot += getInfo("hobby")[1][1];
+        if (tot == 0)
+            tot = 1;
+        return j / tot * 100;
+    }
+    
+    
+    /**
+     * percent 
+     */
+    private int percentageSport() {
+        int j = 0;
+        int tot = 0;
+            j += getInfo("hobby")[2][0];
+            tot += getInfo("hobby")[2][1];
+        if (tot == 0)
+            tot = 1;
+        return j / tot * 100;
+    }
+    
+    
+    /**
+     * percent 
+     */
+    private int percentageMusic() {
+        int j = 0;
+        int tot = 0;
+            j += getInfo("hobby")[3][0];
+            tot += getInfo("hobby")[3][1];
+        if (tot == 0)
+            tot = 1;
+        return j / tot * 100;
     }
 
 

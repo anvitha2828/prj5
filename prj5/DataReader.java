@@ -60,9 +60,9 @@ public class DataReader {
 
         readSurveys(surveyFile);
         readSongs(songFile);
-        System.out.println("reading" + percentageRead() + " art"
-            + percentageArt() + " sports" + percentageSport() + " music"
-            + percentageMusic());
+        for (int i = 0; i < songBank.size(); i++) {
+            System.out.println(songBank.get(i).toString() + "\n\n");
+        }
     }
 
 
@@ -147,61 +147,5 @@ public class DataReader {
             } // end if
             cnt++;
         } // end for i
-    }
-    
-    
-    /**
-     * percent 
-     */
-    private int percentageRead() {
-        int j = 0;
-        int tot = 0;
-        for (int i = 0; i < songBank.size(); i++) {
-            j += songBank.get(i).getInfo("hobby")[0][0];
-            tot++;
-        }
-        return j / tot;
-    }
-    
-    
-    /**
-     * percent 
-     */
-    private int percentageArt() {
-        int j = 0;
-        int tot = 0;
-        for (int i = 0; i < songBank.size(); i++) {
-            j += songBank.get(i).getInfo("hobby")[0][0];
-            tot++;
-        }
-        return j / tot;
-    }
-    
-    
-    /**
-     * percent 
-     */
-    private int percentageMusic() {
-        int j = 0;
-        int tot = 0;
-        for (int i = 0; i < songBank.size(); i++) {
-            j += songBank.get(i).getInfo("hobby")[0][0];
-            tot++;
-        }
-        return j / tot;
-    }
-    
-    
-    /**
-     * percent 
-     */
-    private int percentageSport() {
-        int j = 0;
-        int tot = 0;
-        for (int i = 0; i < songBank.size(); i++) {
-            j += songBank.get(i).getInfo("hobby")[0][0];
-            tot++;
-        }
-        return j / tot;
     }
 }
