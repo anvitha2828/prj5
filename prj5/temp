@@ -1,0 +1,65 @@
+    /**
+     * Generates a glyph on the Window representing one Song in a 3 x 3 mesh.
+     * 
+     * @param x
+     *            The row index of the glyph.
+     * @param y
+     *            The column index of the glyph.
+     * @param song
+     *            A Song from the list.
+     */
+    private void generateGlyph(int x, int y, Song song) {
+        // generate column
+        int xPos = (int)((x + 1) * .25 * window.getGraphPanelWidth()
+            - columnWidth / 2);
+        int yPos = (int)((y + 1) * .25 * window.getGraphPanelHeight());
+        window.addShape(new Shape(xPos, yPos, columnWidth, columnHeight));
+
+        int xLike = xPos + columnWidth;
+
+        // generate bars
+        int[][] info = song.getInfo(represent);
+
+        int xMagentaH = barLength(info[0][0]);
+        int xBlueH = barLength(info[1][0]);
+        int xOrangeH = barLength(info[2][0]);
+        int xGreenH = barLength(info[3][0]);
+
+        // heards bars
+        Shape magentaH = new Shape(xPos - xMagentaH, yPos + 3 * barWidth,
+            xMagentaH, barWidth, Color.MAGENTA);
+        Shape blueH = new Shape(xPos - xBlueH, yPos + 2 * barWidth, xBlueH,
+            barWidth, Color.BLUE);
+        Shape orangeH = new Shape(xPos - xOrangeH, yPos + barWidth, xOrangeH,
+            barWidth, Color.ORANGE);
+        Shape greenH = new Shape(xPos - xGreenH, yPos, xGreenH, barWidth,
+            Color.GREEN);
+
+        // likes bars
+        Shape magentaL = new Shape(xLike, yPos + 3 * barWidth, barLength(
+            info[0][1]), barWidth, Color.MAGENTA);
+        Shape blueL = new Shape(xLike, yPos + 2 * barWidth, barLength(
+            info[1][1]), barWidth, Color.BLUE);
+        Shape orangeL = new Shape(xLike, yPos + barWidth, barLength(info[2][1]),
+            barWidth, Color.ORANGE);
+        Shape greenL = new Shape(xLike, yPos, barLength(info[3][1]), barWidth,
+            Color.GREEN);
+
+        // add TextShape description
+        String description = song.getTitle();
+        if (represent != "title") {
+            description += " " + song.getTitle();
+        }
+
+        window.addShape(new TextShape(xPos, yPos - columnHeight - 5, song
+            .getTitle()));
+        window.addShape(magentaH);
+        window.addShape(blueH);
+        window.addShape(orangeH);
+        window.addShape(greenH);
+
+        window.addShape(magentaL);
+        window.addShape(blueL);
+        window.addShape(orangeL);
+        window.addShape(greenL);
+    }
