@@ -13,7 +13,7 @@ import CS2114.WindowSide;
  *
  */
 public class GUIDataWindow {
-    // private Sorter s;
+    private Song songTest;
     private Window window;
     private Button quit;
     private Button next;
@@ -29,7 +29,7 @@ public class GUIDataWindow {
     private String represent;
     private final int columnWidth = 10;
     private final int columnHeight = 40;
-    private final int lastPage;
+    // private final int lastPage;
     private final int barLengthFactor = 10;
     private final int barWidth = 10;
     private LList list;
@@ -40,9 +40,10 @@ public class GUIDataWindow {
      * @param songs
      */
     public GUIDataWindow(LList songs) {
+        songTest = new Song("Hotline Bling", "Drake", 2015, "R&B");
         represent = "hobby";
         list = songs;
-        lastPage = (int)Math.ceil(list.size() / 9);
+        // lastPage = (int)Math.ceil(list.size() / 9);
 
         // create window
         window = new Window("Song Survey Visualization");
@@ -81,8 +82,8 @@ public class GUIDataWindow {
         representByState.onClick("clickedRepresentByState");
         representByMajor.onClick("clickedRepresentByMajor");
         representByHobby.onClick("clickedRepresentByHobby");
-
         update();
+
     }
 
 
@@ -161,14 +162,16 @@ public class GUIDataWindow {
      * Simulates clicking "Next" on the GUI.
      */
     public void clickedNext() {
-        pageNumber++;
-        update();
-        if (pageNumber >= lastPage) {
-            next.disable();
-        }
-        else {
-            next.enable();
-        }
+        /**
+         * pageNumber++;
+         * update();
+         * if (pageNumber >= lastPage) {
+         * next.disable();
+         * }
+         * else {
+         * next.enable();
+         * }
+         */
     }
 
 
@@ -200,13 +203,18 @@ public class GUIDataWindow {
      * Updates legend in response to change in represenation.
      */
     private void updateLegend() {
-        // background
-        window.addShape(new Shape(10, 10, 10, 10));
+
         // bar
-        window.addShape(new Shape(10, 10, 10, 10));
-        window.addShape(new TextShape(10, 10, "Song"));
-        window.addShape(new TextShape(10, 10, "Heard"));
-        window.addShape(new TextShape(10, 10, "Likes"));
+        window.addShape(new Shape(673, 220, 5, 50, Color.BLACK));
+        TextShape songT = new TextShape(640, 200, "Song Title");
+        songT.setBackgroundColor(Color.WHITE);
+        window.addShape(songT);
+        TextShape heard = new TextShape(625, 230, "Heard");
+        heard.setBackgroundColor(Color.WHITE);
+        window.addShape(heard);
+        TextShape likes = new TextShape(685, 230, "Likes");
+        likes.setBackgroundColor(Color.WHITE);
+        window.addShape(likes);
 
         TextShape title;
         TextShape enumVal1;
@@ -223,17 +231,23 @@ public class GUIDataWindow {
         }
         else if (represent == "state") {
             title = new TextShape(10, 10, "State Legend");
-            enumVal1 = new TextShape(10, 10, "Northeast US");
-            enumVal2 = new TextShape(10, 10, "SouthEast US");
-            enumVal3 = new TextShape(10, 10, "Rest of US");
-            enumVal4 = new TextShape(10, 10, "Outside US");
+            enumVal1 = new TextShape(620, 120, "Northeast US", Color.MAGENTA);
+            enumVal2 = new TextShape(620, 140, "SouthEast US", Color.GREEN);
+            enumVal3 = new TextShape(620, 160, "Rest of US", Color.YELLOW);
+            enumVal4 = new TextShape(620, 180, "Outside US", Color.BLUE);
         }
         else {
-            title = new TextShape(10, 10, "Hobby Legend");
-            enumVal1 = new TextShape(10, 10, "Reading");
-            enumVal2 = new TextShape(10, 10, "Music");
-            enumVal3 = new TextShape(10, 10, "Sports");
-            enumVal4 = new TextShape(10, 10, "Art");
+            title = new TextShape(620, 100, "Hobby Legend");
+            title.setBackgroundColor(Color.WHITE);
+
+            enumVal1 = new TextShape(620, 120, "Reading", Color.MAGENTA);
+            enumVal1.setBackgroundColor(Color.WHITE);
+            enumVal2 = new TextShape(620, 140, "Music", Color.GREEN);
+            enumVal2.setBackgroundColor(Color.WHITE);
+            enumVal3 = new TextShape(620, 160, "Sports", Color.YELLOW);
+            enumVal3.setBackgroundColor(Color.WHITE);
+            enumVal4 = new TextShape(620, 180, "Art", Color.BLUE);
+            enumVal4.setBackgroundColor(Color.WHITE);
         }
 
         window.addShape(title);
@@ -241,6 +255,11 @@ public class GUIDataWindow {
         window.addShape(enumVal2);
         window.addShape(enumVal3);
         window.addShape(enumVal4);
+
+        // background box
+        Shape s = new Shape(610, 90, 125, 190, Color.BLACK);
+        s.setBackgroundColor(Color.WHITE);
+        window.addShape(s);
     }
 
 
@@ -284,9 +303,9 @@ public class GUIDataWindow {
         window.addShape(new Shape(xPos, yPos, columnWidth, columnHeight));
 
         // generate bars
-        int[][] info = song.getInfo(represent);
+        int[][] info = new int[4][2];// song.getInfo(represent);
 
-        //heards bars
+        // heards bars
         Shape pinkH = new Shape(10, 10, barLength(info[1][1]), barWidth,
             Color.MAGENTA);
         Shape blueH = new Shape(10, 10, barLength(info[2][1]), barWidth,
@@ -296,7 +315,7 @@ public class GUIDataWindow {
         Shape greenH = new Shape(10, 10, barLength(info[4][1]), barWidth,
             Color.GREEN);
 
-        //likes bars
+        // likes bars
         Shape pinkL = new Shape(10, 10, barLength(info[1][2]), barWidth,
             Color.MAGENTA);
         Shape blueL = new Shape(10, 10, barLength(info[2][2]), barWidth,
