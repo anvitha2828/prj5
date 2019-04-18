@@ -33,6 +33,7 @@ public class DataReader {
         binary = new HashMap<String, Integer>();
         binary.put("Yes", 1);
         binary.put("No", 0);
+        binary.put(" ", 0);
         binary.put("", 0);
         binary.put(null, 0);
 
@@ -41,6 +42,7 @@ public class DataReader {
         maj.put("Other Engineering", 1);
         maj.put("Math or CMDA", 2);
         maj.put("Other", 3);
+        maj.put(" ", 0);
         maj.put("", 0);
         maj.put(null, 0);
 
@@ -49,6 +51,7 @@ public class DataReader {
         stt.put("Northeast", 1);
         stt.put("United States (other than Southeast or Northwest)", 2);
         stt.put("Outside of United States", 3);
+        stt.put(" ", 0);
         stt.put("", 0);
         stt.put(null, 0);
 
@@ -57,6 +60,7 @@ public class DataReader {
         hob.put("art", 1);
         hob.put("sports", 2);
         hob.put("music", 3);
+        hob.put(" ", 0);
         hob.put("", 0);
         hob.put(null, 0);
 
@@ -71,6 +75,7 @@ public class DataReader {
      * new stuf
      */
     private String forSystemDotOut() {
+        String output = "";
         if (songBank.isEmpty())
             return "";
         else {
@@ -85,10 +90,10 @@ public class DataReader {
                 bob.append("reading" + percentageRead(k, 1) + " art"
                     + percentageArt(k, 1) + " sports" + percentageSport(k, 1)
                     + " music" + percentageMusic(k, 1));
-                return bob.toString() + "\n\n";
+                output += bob.toString() + "\n\n";
             }
         }
-        return "fuck this";
+        return output;
     }
 
 
@@ -99,7 +104,7 @@ public class DataReader {
         int j = songBank.get(k).getInfo("hobby")[0][i];
         if (iter == 0)
             return 0;
-        return j / iter * 100;
+        return j * 100 / iter;
     }
 
 
@@ -110,7 +115,7 @@ public class DataReader {
         int j = songBank.get(k).getInfo("hobby")[1][i];
         if (iter == 0)
             return 0;
-        return j / iter * 100;
+        return j * 100 / iter;
     }
 
 
@@ -121,7 +126,7 @@ public class DataReader {
         int j = songBank.get(k).getInfo("hobby")[2][i];
         if (iter == 0)
             return 0;
-        return j / iter * 100;
+        return j * 100 / iter;
     }
 
 
@@ -132,7 +137,7 @@ public class DataReader {
         int j = songBank.get(k).getInfo("hobby")[3][i];
         if (iter == 0)
             return 0;
-        return j / iter * 100;
+        return j * 100 / iter;
     }
 
 
@@ -157,12 +162,14 @@ public class DataReader {
         @SuppressWarnings("resource")
         Scanner scanWee = new Scanner(new File(fN));
         scanWee.nextLine();
+        iter = 0;
         while (scanWee.hasNextLine()) {
             String parcel = scanWee.nextLine();
-            String[] parsed = parcel.split(",", -1);
+            String[] parsed = parcel.split(",");
             songBank.add(new Song(parsed[0], parsed[1], parsed[2], parsed[3]));
+            iter++;
         } // end while
-    }
+    } // end readSongs
 
 
     /**
@@ -182,6 +189,7 @@ public class DataReader {
             String thisGuy = scanWoo.nextLine();
             addJeroos(thisGuy);
             iter++;
+            cnt++;
         } // end while
     } // end readSurveys
 
@@ -196,10 +204,16 @@ public class DataReader {
         String[] chopped = thisGuy.split(",");
 
         // these are the indices for which we count this iteration of the loop
-        int majInt = maj.get(chopped[2]);
-        int sttInt = stt.get(chopped[3]);
-        int hobInt = hob.get(chopped[4]);
+        int majInt = 0;
+        int sttInt = 0;
+        int hobInt = 0;
+        if (chopped.length > 2) {
+            majInt = maj.get(chopped[2]);
+            sttInt = stt.get(chopped[3]);
+            hobInt = hob.get(chopped[4]);
+        }
 
+        cnt = 0;
         for (int i = 5; i < chopped.length; i += 2) {
             if (chevy[i].contains(songBank.get(cnt).getTitle())) {
                 songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(
@@ -209,7 +223,7 @@ public class DataReader {
                 songBank.get(cnt).getInfo("hobby")[hobInt][0] += binary.get(
                     chopped[i]);
             } // end if
-            if (binary.get(chopped[i + 1]) != null && chopped[i + 1] != null) {
+            if (chevy[i].contains(songBank.get(cnt).getTitle())) {
                 songBank.get(cnt).getInfo("major")[majInt][1] += binary.get(
                     chopped[i + 1]);
                 songBank.get(cnt).getInfo("state")[sttInt][1] += binary.get(
@@ -219,5 +233,5 @@ public class DataReader {
             } // end if
             cnt++;
         } // end for i
-    }
+    } // end addJeroos
 }

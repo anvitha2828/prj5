@@ -13,7 +13,6 @@ import CS2114.WindowSide;
  *
  */
 public class GUIDataWindow {
-    private Song songTest;
     private Window window;
     private Button quit;
     private Button next;
@@ -39,10 +38,9 @@ public class GUIDataWindow {
      * 
      * @param songs
      */
-    public GUIDataWindow(LList songs) {
-        songTest = new Song("Hotline Bling", "Drake", "2015", "R&B");
+    public GUIDataWindow(DataReader phil) {
         represent = "hobby";
-        list = songs;
+        list = phil.getSongs();
         // lastPage = (int)Math.ceil(list.size() / 9);
 
         // create window
