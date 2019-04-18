@@ -8,6 +8,8 @@ package prj5;
  * @author Nicholas Cardaci <nicho17>
  * @author Matthew Pinho <mpinho16>
  * @author Peter Kistler <pdblvkis>
+ * 
+ * @version 04/17/2019
  *
  */
 public class Song {
@@ -96,13 +98,13 @@ public class Song {
      *         2D array value containing number of likes and heard
      */
     public int[][] getInfo(String s) {
-        if (s == "major") {
+        if (s.equals("major")) {
             return majorHeardLikes;
         }
-        if (s == "state") {
+        if (s.equals("state")) {
             return stateHeardLikes;
         }
-        if (s == "hobby") {
+        if (s.equals("hobby")) {
             return hobbyHeardLikes;
         }
         return null;
@@ -122,69 +124,7 @@ public class Song {
         bob.append("\n" + "song artist " + getArtist());
         bob.append("\n" + "song genre " + getGenre());
         bob.append("\n" + "year " + getYear());
-        bob.append("\n" + "heard" + "\n");
-        bob.append("reading" + percentageRead() + " art" + percentageArt()
-            + " sports" + percentageSport() + " music" + percentageMusic());
-        bob.append("\n" + "likes" + "\n");
-        bob.append("reading" + percentageRead() + " art" + percentageArt()
-        + " sports" + percentageSport() + " music" + percentageMusic());
         return bob.toString();
-    }
-    
-    
-    /**
-     * percent 
-     */
-    private int percentageRead() {
-        int j = 0;
-        int tot = 0;
-            j += getInfo("hobby")[0][0];
-            tot += getInfo("hobby")[0][1];
-        if (tot == 0)
-            tot = 1;
-        return j / tot * 100;
-    }
-    
-    
-    /**
-     * percent 
-     */
-    private int percentageArt() {
-        int j = 0;
-        int tot = 0;
-            j += getInfo("hobby")[1][0];
-            tot += getInfo("hobby")[1][1];
-        if (tot == 0)
-            tot = 1;
-        return j / tot * 100;
-    }
-    
-    
-    /**
-     * percent 
-     */
-    private int percentageSport() {
-        int j = 0;
-        int tot = 0;
-            j += getInfo("hobby")[2][0];
-            tot += getInfo("hobby")[2][1];
-        if (tot == 0)
-            tot = 1;
-        return j / tot * 100;
-    }
-    
-    
-    /**
-     * percent 
-     */
-    private int percentageMusic() {
-        int j = 0;
-        int tot = 0;
-            j += getInfo("hobby")[3][0];
-            tot += getInfo("hobby")[3][1];
-        if (tot == 0)
-            tot = 1;
-        return j / tot * 100;
     }
 
 

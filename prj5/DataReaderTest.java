@@ -24,8 +24,8 @@ public class DataReaderTest extends student.TestCase {
      */
     public void setUp() {
         try {
-            phil = new DataReader("SongList2018.csv",
-                "MusicSurveyData2018.csv");
+            phil = new DataReader("MusicSurveyData2018.csv",
+                "SongList2018.csv");
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -39,8 +39,8 @@ public class DataReaderTest extends student.TestCase {
      * @throws FileNotFoundException
      */
     public void testReadSongs() throws FileNotFoundException {
-        assertEquals("Hotline Bling, Drake, 2015, R&B.", phil.getSongs().get(
-            0).toString());
+        assertEquals("song title Hotline Bling/n" + "Drake, 2015, R&B.", phil.getSongs().get(0)
+            .toString());
         assertEquals("Creep, Radiohead, 1992, Alternative.", phil.getSongs()
             .get(1).toString());
         assertEquals("All of Me, John Legend, 2013, R&B.", phil.getSongs().get(

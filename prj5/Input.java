@@ -16,7 +16,7 @@ public class Input {
         }
         else {
             try {
-                new DataReader("SongList2018.csv", "MusicSurveyData2018.csv");
+                new DataReader("MusicSurveyData2018.csv", "SongList2018.csv");
             }
             catch (FileNotFoundException e) {
                 e.printStackTrace();

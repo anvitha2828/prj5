@@ -58,7 +58,10 @@ public class SongTest extends student.TestCase {
      * Tests the toString method to ensure it acts as expected
      */
     public void testToString() {
-        assertEquals(s.toString(), "Hotline Bling, Drake, 2015, R&B.");
+        assertEquals(s.toString(), "song title Hotline Bling\r\n" + 
+            "song artist Drake\r\n" + 
+            "song genre R&B\r\n" + 
+            "year 2015");
     }
 
 

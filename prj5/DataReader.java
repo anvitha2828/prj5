@@ -12,7 +12,9 @@ public class DataReader {
     private HashMap<String, Integer> maj;
     private HashMap<String, Integer> stt;
     private HashMap<String, Integer> hob;
+    private String[] chevy;
     private int cnt;
+    private int iter;
 
 
     /**
@@ -24,7 +26,7 @@ public class DataReader {
      *            the results of the data collection survey
      * @throws FileNotFoundException
      */
-    public DataReader(String songFile, String surveyFile)
+    public DataReader(String surveyFile, String songFile)
         throws FileNotFoundException {
         songBank = new LList();
 
@@ -58,11 +60,79 @@ public class DataReader {
         hob.put("", 0);
         hob.put(null, 0);
 
-        readSurveys(surveyFile);
         readSongs(songFile);
-        for (int i = 0; i < songBank.size(); i++) {
-            System.out.println(songBank.get(i).toString() + "\n\n");
+        readSurveys(surveyFile);
+
+        System.out.println(forSystemDotOut());
+    }
+
+
+    /**
+     * new stuf
+     */
+    private String forSystemDotOut() {
+        if (songBank.isEmpty())
+            return "";
+        else {
+            for (int k = 0; k < songBank.size(); k++) {
+                StringBuilder bob = new StringBuilder(songBank.get(k)
+                    .toString());
+                bob.append("\n" + "heard" + "\n");
+                bob.append("reading" + percentageRead(k, 0) + " art"
+                    + percentageArt(k, 0) + " sports" + percentageSport(k, 0)
+                    + " music" + percentageMusic(k, 0));
+                bob.append("\n" + "likes" + "\n");
+                bob.append("reading" + percentageRead(k, 1) + " art"
+                    + percentageArt(k, 1) + " sports" + percentageSport(k, 1)
+                    + " music" + percentageMusic(k, 1));
+                return bob.toString() + "\n\n";
+            }
         }
+        return "fuck this";
+    }
+
+
+    /**
+     * percent
+     */
+    private int percentageRead(int k, int i) {
+        int j = songBank.get(k).getInfo("hobby")[0][i];
+        if (iter == 0)
+            return 0;
+        return j / iter * 100;
+    }
+
+
+    /**
+     * percent
+     */
+    private int percentageArt(int k, int i) {
+        int j = songBank.get(k).getInfo("hobby")[1][i];
+        if (iter == 0)
+            return 0;
+        return j / iter * 100;
+    }
+
+
+    /**
+     * percent
+     */
+    private int percentageSport(int k, int i) {
+        int j = songBank.get(k).getInfo("hobby")[2][i];
+        if (iter == 0)
+            return 0;
+        return j / iter * 100;
+    }
+
+
+    /**
+     * percent
+     */
+    private int percentageMusic(int k, int i) {
+        int j = songBank.get(k).getInfo("hobby")[3][i];
+        if (iter == 0)
+            return 0;
+        return j / iter * 100;
     }
 
 
@@ -83,7 +153,7 @@ public class DataReader {
      *            the name of the file to read
      * @throws FileNotFoundException
      */
-    private void readSurveys(String fN) throws FileNotFoundException {
+    private void readSongs(String fN) throws FileNotFoundException {
         @SuppressWarnings("resource")
         Scanner scanWee = new Scanner(new File(fN));
         scanWee.nextLine();
@@ -102,14 +172,16 @@ public class DataReader {
      *            the name of the file to read
      * @throws FileNotFoundException
      */
-    private void readSongs(String fN) throws FileNotFoundException {
+    private void readSurveys(String fN) throws FileNotFoundException {
         @SuppressWarnings("resource")
         Scanner scanWoo = new Scanner(new File(fN));
-        scanWoo.nextLine();
+        iter = 0;
+        chevy = scanWoo.nextLine().split(",");
         while (scanWoo.hasNextLine()) {
             cnt = 0;
             String thisGuy = scanWoo.nextLine();
             addJeroos(thisGuy);
+            iter++;
         } // end while
     } // end readSurveys
 
@@ -121,7 +193,7 @@ public class DataReader {
      *            the string that is passed in ya cuny
      */
     private void addJeroos(String thisGuy) {
-        String[] chopped = thisGuy.split(",", -1);
+        String[] chopped = thisGuy.split(",");
 
         // these are the indices for which we count this iteration of the loop
         int majInt = maj.get(chopped[2]);
@@ -129,7 +201,7 @@ public class DataReader {
         int hobInt = hob.get(chopped[4]);
 
         for (int i = 5; i < chopped.length; i += 2) {
-            if (binary.get(chopped[i]) != null && chopped[i] != null) {
+            if (chevy[i].contains(songBank.get(cnt).getTitle())) {
                 songBank.get(cnt).getInfo("major")[majInt][0] += binary.get(
                     chopped[i]);
                 songBank.get(cnt).getInfo("state")[sttInt][0] += binary.get(

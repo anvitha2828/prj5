@@ -2,13 +2,14 @@ package prj5;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import prj5.Song;
 
 /**
  * @author Matthew Pinho
  * @author Peter Kistler
  * @author Nicholas Cardaci
  * @author Anvitha Nachiappan
+ * 
+ * @version 04/17/2019
  *
  */
 public class LList implements Iterable<Song> {
@@ -233,18 +234,16 @@ public class LList implements Iterable<Song> {
      * Determines if second String comes earlier than the first.
      * 
      * @param str1
+     *            the first string
      * @param str2
+     *            the second string
      * @return Whether str2 is earlier than str1.
      */
     public boolean foundNewEarliest(String str1, String str2) {
         String[] str = new String[] { str1, str2 };
         String[] sorted = new String[] { str1, str2 };
         Arrays.sort(sorted);
-        if (str[0] != sorted[0]) {
-            return true;
-        }
-
-        return false;
+        return str[0] != sorted[0];
     }
 
 
