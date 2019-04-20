@@ -5,8 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * @author Matthew Pinho (mpinho16)
+ * @author Peter Kistler (pdblvkis)
+ * @author Nicholas Cardaci (nicho17)
+ * @author Anvitha Nachiappan (anvitha)
+ * @version 2019.04.20
+ */
 public class DataReader {
-
     private LList songBank;
     private HashMap<String, Integer> maj;
     private HashMap<String, Integer> stt;
@@ -125,7 +131,7 @@ public class DataReader {
         Song song;
         int songNum = 0;
 
-        // Each i corresponds to ONE song.
+        // Each iteration observes data for ONE song.
         for (int i = 5; i < chopped.length; i += 2) {
             song = songBank.get(songNum);
             // Heard: Yes
@@ -152,12 +158,18 @@ public class DataReader {
                 song.getInfo("state")[sttVal][3]++;
                 song.getInfo("hobby")[hobVal][3]++;
             }
-            
+
             songNum++;
         }
     }
 
 
+    /**
+     * Prints the relevant information of a single song.
+     * 
+     * @param song
+     *            Song for which information is being printed.
+     */
     private void print(Song song) {
         StringBuilder builder = new StringBuilder();
         System.out.println("Song Title: " + song.getTitle());
@@ -185,6 +197,17 @@ public class DataReader {
     }
 
 
+    /**
+     * Calculates the proportion of the yeses to the sum of yeses and nos.
+     * 
+     * @param song
+     *            Song for which percentages are to be calculated.
+     * @param i
+     *            The i-th row of an information array of the song.
+     * @param j
+     *            The j-th column of an information array of the song.
+     * @return Proportion of the yeses to the sum of the yeses and nos.
+     */
     private int percent(Song song, int i, int j) {
         int[][] arr = song.getInfo("hobby");
         double yes = arr[i][j];
@@ -198,6 +221,9 @@ public class DataReader {
     }
 
 
+    /**
+     * Prints songs one-by-one.
+     */
     private void printSongs() {
         for (int i = 0; i < songBank.size(); i++) {
             print(songBank.get(i));
