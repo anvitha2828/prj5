@@ -39,9 +39,9 @@ public class Song {
         genre = gen;
         artist = art;
         year = yea;
-        majorHeardLikes = new int[4][2];
-        stateHeardLikes = new int[4][2];
-        hobbyHeardLikes = new int[4][2];
+        majorHeardLikes = new int[5][4];
+        stateHeardLikes = new int[5][4];
+        hobbyHeardLikes = new int[5][4];
     }
 
 
@@ -123,7 +123,7 @@ public class Song {
         StringBuilder bob = new StringBuilder("song title " + getTitle());
         bob.append("\n" + "song artist " + getArtist());
         bob.append("\n" + "song genre " + getGenre());
-        bob.append("\n" + "year " + getYear());
+        bob.append("\n" + "song year " + getYear());
         return bob.toString();
     }
 

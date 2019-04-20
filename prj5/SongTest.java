@@ -9,6 +9,7 @@ package prj5;
  * @author Matthew Pinho <mpinho16>
  * @author Peter Kistler <pdblvkis>
  *
+ * @version 4/19/2019
  */
 public class SongTest extends student.TestCase {
     private Song s;
@@ -61,7 +62,7 @@ public class SongTest extends student.TestCase {
         assertEquals(s.toString(), "song title Hotline Bling\r\n" + 
             "song artist Drake\r\n" + 
             "song genre R&B\r\n" + 
-            "year 2015");
+            "song year 2015");
     }
 
 

@@ -203,30 +203,6 @@ public class LList implements Iterable<Song> {
                 swapElements(lh, pEarliest);
             }
         }
-
-        print();
-    }
-
-
-    /**
-     * Prints songs from list in order after sortation.
-     */
-    private void print() {
-        Song song;
-        for (int i = 0; i < size; i++) {
-            song = get(i);
-            System.out.println("Song Title: " + song.getTitle());
-            System.out.println("Song Artist: " + song.getArtist());
-            System.out.println("Song Genre: " + song.getGenre());
-            System.out.println("Song Year: " + song.getYear());
-            System.out.println("Heard");
-            System.out.println("reading:0" + " art:0" + " sports:50"
-                + " music:0");
-            System.out.println("Likes");
-            System.out.println("reading:0" + " art:0" + " sports:50"
-                + " music:100");
-            System.out.println();
-        }
     }
 
 
@@ -257,7 +233,7 @@ public class LList implements Iterable<Song> {
      *            Index of second Song.
      */
     public void swapElements(int p1, int p2) {
-        if (p2 != p1 && p2 <= size && p1 <= size) {
+        if (p2 != p1) {
             String temp = param[p1];
             param[p1] = param[p2];
             param[p2] = temp;
@@ -319,16 +295,27 @@ public class LList implements Iterable<Song> {
         private Node curr;
 
 
+        /**
+         * creates a new iterator object for the LList
+         */
         public LListIterator() {
             curr = head;
         }
 
 
+        /**
+         * checks if there is still more that can be iterated over
+         */
         public boolean hasNext() {
             return curr.next != null;
         }
 
 
+        /**
+         * iterates to the next item in the LList
+         * 
+         * @return  the next Song in the LList
+         */
         @Override
         public Song next() {
             curr = curr.next;

@@ -20,14 +20,31 @@ public class LListTest extends student.TestCase {
      */
     public void setUp() {
         list = new LList();
-        jack = new Song("Jack","Hearts", "1800", "Metal");
-        queen = new Song("Queen","Spades","1900", "Pop");
+        jack = new Song("Jack", "Hearts", "1800", "Metal");
+        queen = new Song("Queen", "Spades", "1900", "Pop");
         king = new Song("King", "Diamonds", "2000", "Jazz");
 
         list.add(jack);
         list.add(queen);
         list.add(king);
     }
+    
+    
+    /**
+     * tests sortBy throws the correct exception
+     */
+    public void testSortByException() {
+        Exception ex = null;
+        try {
+            list.sortBy("filthy");
+        }
+        catch (Exception e) {
+            ex = e;
+            assertNotNull(ex);
+        }
+        assertTrue(ex instanceof IllegalArgumentException);
+    }
+    
     
     /**
      * Checks that songs are added correctly.
@@ -69,11 +86,42 @@ public class LListTest extends student.TestCase {
         list.add(queen);
         assertEquals(queen, list.get(1));
     }
+    
+    
+    /**
+     * tests that swapElements throws the correct exception
+     */
+    public void testSwapElementsException() {
+        Exception ex = null;
+        try {
+            list.swapElements(0, -1);
+        }
+        catch (Exception e) {
+            ex = e;
+            assertNotNull(ex);
+        }
+        assertTrue(ex instanceof IndexOutOfBoundsException);
+        
+        ex = null;
+        try {
+            list.swapElements(0, 100);
+        }
+        catch (Exception e) {
+            ex = e;
+            assertNotNull(ex);
+        }
+        assertTrue(ex instanceof IndexOutOfBoundsException);
+    }
+    
 
     /**
      * Checks that swaps two elements in the list.
      */
     public void testSwapElements() {
+        list.swapElements(1, 1);
+        assertEquals(jack, list.get(0));
+        assertEquals(queen, list.get(1));
+        
         list.swapElements(0, 1);
         assertEquals(queen, list.get(0));
         assertEquals(jack, list.get(1));
