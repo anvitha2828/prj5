@@ -4,6 +4,9 @@
 // I will not lie, cheat, or steal, nor will I accept the actions of those who
 // do.
 // -- Nicholas Cardaci (nicho17)
+// -- Peter Kistler (pdblvkis)
+// -- Anvitha Nachiappan (anvitha)
+// -- Matthew Pinho (mpinho16)
 package prj5;
 
 import java.util.Arrays;
@@ -21,6 +24,7 @@ import java.util.Iterator;
 public class LList implements Iterable<Song> {
 
     /**
+     * Private Node class to hold elements of the list
      * 
      * @version 4/14/2015
      * @version 9.4.15
@@ -28,7 +32,7 @@ public class LList implements Iterable<Song> {
      * @version 10/15/2016
      * @version 03/17/2017
      */
-    public static class Node {
+    private static class Node {
 
         // The data element stored in the node.
         private Song data;
@@ -151,6 +155,8 @@ public class LList implements Iterable<Song> {
      * 
      * @param str
      *            A field of Song class.
+     * @throws IllegalArgumentException
+     *             if str is not a valid argument
      */
     private void changeParam(String str) {
         if (str.equals("title")) {
@@ -283,7 +289,7 @@ public class LList implements Iterable<Song> {
 
 
     /**
-     * the
+     * private iterator class for the list
      * 
      * @author Matthew Pinho
      * @author Peter Kistler
@@ -315,7 +321,7 @@ public class LList implements Iterable<Song> {
         /**
          * iterates to the next item in the LList
          * 
-         * @return  the next Song in the LList
+         * @return the next Song in the LList
          */
         @Override
         public Song next() {

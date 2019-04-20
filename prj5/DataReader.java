@@ -4,6 +4,9 @@
 // I will not lie, cheat, or steal, nor will I accept the actions of those who
 // do.
 // -- Nicholas Cardaci (nicho17)
+// -- Peter Kistler (pdblvkis)
+// -- Anvitha Nachiappan (anvitha)
+// -- Matthew Pinho (mpinho16)
 package prj5;
 
 import java.io.File;
@@ -28,13 +31,14 @@ public class DataReader {
 
 
     /**
-     * creates a new DataReader object to read the heckin data
+     * creates a new DataReader object
      * 
      * @param songFile
      *            the list of songs for which data was collected
      * @param surveyFile
      *            the results of the data collection survey
      * @throws FileNotFoundException
+     *             if an invalid file argument is passed
      */
     public DataReader(String surveyFile, String songFile)
         throws FileNotFoundException {
@@ -111,6 +115,7 @@ public class DataReader {
      * @param filename
      *            The name of the file to read.
      * @throws FileNotFoundException
+     *             if an invalid file argument is passed
      */
     private void readSurveys(String filename) throws FileNotFoundException {
         @SuppressWarnings("resource")

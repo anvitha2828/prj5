@@ -4,6 +4,9 @@
 // I will not lie, cheat, or steal, nor will I accept the actions of those who
 // do.
 // -- Nicholas Cardaci (nicho17)
+// -- Peter Kistler (pdblvkis)
+// -- Anvitha Nachiappan (anvitha)
+// -- Matthew Pinho (mpinho16)
 package prj5;
 
 import java.io.FileNotFoundException;

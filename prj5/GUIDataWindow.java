@@ -4,6 +4,9 @@
 // I will not lie, cheat, or steal, nor will I accept the actions of those who
 // do.
 // -- Nicholas Cardaci (nicho17)
+// -- Peter Kistler (pdblvkis)
+// -- Anvitha Nachiappan (anvitha)
+// -- Matthew Pinho (mpinho16)
 package prj5;
 
 import java.awt.Color;
@@ -36,7 +39,7 @@ public class GUIDataWindow {
     private final int columnWidth = 5;
     private final int columnHeight = 40;
     // private final int lastPage;
-    private final int barLengthFactor = 10;
+    // private final int barLengthFactor = 10;
     private final int barWidth = 10;
     private LList list;
 
