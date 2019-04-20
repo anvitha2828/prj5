@@ -1,3 +1,9 @@
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Nicholas Cardaci (nicho17)
 package prj5;
 
 import java.awt.Color;
@@ -8,6 +14,7 @@ import CS2114.Window;
 import CS2114.WindowSide;
 
 /**
+ * the class houses the GUI window which is the mean display of the project.
  * 
  * @author Matthew Pinho
  *
@@ -35,6 +42,8 @@ public class GUIDataWindow {
 
 
     /**
+     * this is the constructor of the class it is used to initialize the class
+     * used objects.
      * 
      * @param songs
      */
@@ -86,7 +95,8 @@ public class GUIDataWindow {
 
 
     /**
-     * 
+     * this method sets the function of Sort By Song Title
+     * button.
      */
     public void clickedSortBySongTitle() {
         list.sortBy("title");
@@ -95,7 +105,8 @@ public class GUIDataWindow {
 
 
     /**
-     * 
+     * this method sets the function of Sort By Artist Name
+     * button.
      */
     public void clickedSortByArtistName() {
         list.sortBy("artist");
@@ -104,7 +115,8 @@ public class GUIDataWindow {
 
 
     /**
-     * 
+     * this method sets the function of Sort By Genre
+     * button.
      */
     public void clickedSortByGenre() {
         list.sortBy("genre");
@@ -113,7 +125,8 @@ public class GUIDataWindow {
 
 
     /**
-     * 
+     * this method sets the function of Sort By Release Year
+     * button.
      */
     public void clickedSortByReleaseYear() {
         list.sortBy("year");
@@ -122,7 +135,8 @@ public class GUIDataWindow {
 
 
     /**
-     * 
+     * this method sets the function of Represent By Major
+     * button.
      */
     public void clickedRepresentByMajor() {
         represent = "major";
@@ -131,7 +145,8 @@ public class GUIDataWindow {
 
 
     /**
-     * 
+     * this method sets the function of Represent By State
+     * button.
      */
     public void clickedRepresentByState() {
         represent = "state";
@@ -140,7 +155,8 @@ public class GUIDataWindow {
 
 
     /**
-     * 
+     * this method sets the function of Represent By Hobby
+     * button.
      */
     public void clickedRepresentByHobby() {
         represent = "hobby";
@@ -306,6 +322,7 @@ public class GUIDataWindow {
         int xLike = xPos + columnWidth;
 
         // generate bars
+        @SuppressWarnings("unused")
         int[][] info = song.getInfo(represent);
 
         int xMagentaH = 30;// barLength(info[0][0]);
@@ -344,6 +361,7 @@ public class GUIDataWindow {
             Color.GREEN);
 
         // add TextShape description
+        @SuppressWarnings("unused")
         String description = song.getTitle();
         if (represent != "title") {
             description += " " + song.getTitle();
@@ -370,17 +388,5 @@ public class GUIDataWindow {
         window.addShape(blueL);
         window.addShape(orangeL);
         window.addShape(greenL);
-    }
-
-
-    /**
-     * Returns the length of a bar based on count of likes or heards.
-     * 
-     * @param count
-     *            Number of likes or heards.
-     * @return Length of a bar.
-     */
-    private int barLength(int count) {
-        return barLengthFactor * count;
     }
 }

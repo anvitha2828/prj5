@@ -1,3 +1,9 @@
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Nicholas Cardaci (nicho17)
 package prj5;
 
 /**
@@ -15,6 +21,7 @@ public class LListTest extends student.TestCase {
     private Song queen;
     private Song king;
 
+
     /**
      * Sets up before each test method run.
      */
@@ -28,8 +35,8 @@ public class LListTest extends student.TestCase {
         list.add(queen);
         list.add(king);
     }
-    
-    
+
+
     /**
      * tests sortBy throws the correct exception
      */
@@ -44,15 +51,15 @@ public class LListTest extends student.TestCase {
         }
         assertTrue(ex instanceof IllegalArgumentException);
     }
-    
-    
+
+
     /**
      * Checks that songs are added correctly.
      */
     public void testAdd() {
         assertEquals(list.size(), 3);
         assertFalse(list.isEmpty());
-        
+
         Exception thrown = null;
         try {
             list.add(null);
@@ -61,7 +68,7 @@ public class LListTest extends student.TestCase {
             thrown = e;
         }
         assertNotNull(thrown);
-        
+
         list.clear();
         list.clear();
         assertTrue(list.isEmpty());
@@ -86,8 +93,8 @@ public class LListTest extends student.TestCase {
         list.add(queen);
         assertEquals(queen, list.get(1));
     }
-    
-    
+
+
     /**
      * tests that swapElements throws the correct exception
      */
@@ -101,7 +108,7 @@ public class LListTest extends student.TestCase {
             assertNotNull(ex);
         }
         assertTrue(ex instanceof IndexOutOfBoundsException);
-        
+
         ex = null;
         try {
             list.swapElements(0, 100);
@@ -112,7 +119,7 @@ public class LListTest extends student.TestCase {
         }
         assertTrue(ex instanceof IndexOutOfBoundsException);
     }
-    
+
 
     /**
      * Checks that swaps two elements in the list.
@@ -121,11 +128,12 @@ public class LListTest extends student.TestCase {
         list.swapElements(1, 1);
         assertEquals(jack, list.get(0));
         assertEquals(queen, list.get(1));
-        
+
         list.swapElements(0, 1);
         assertEquals(queen, list.get(0));
         assertEquals(jack, list.get(1));
     }
+
 
     /**
      * Checks that second input is earlier than first.
@@ -138,22 +146,23 @@ public class LListTest extends student.TestCase {
         assertTrue(list.foundNewEarliest(str2, str1));
     }
 
+
     /**
-     * Checks that sortation is done correctly.
+     * Checks that sort is done correctly.
      */
     public void testSortBy() {
         list.sortBy("title");
         assertEquals(jack, list.get(0));
         assertEquals(king, list.get(1));
-        
+
         list.sortBy("artist");
         assertEquals(king, list.get(0));
         assertEquals(jack, list.get(1));
-        
+
         list.sortBy("genre");
         assertEquals(king, list.get(0));
         assertEquals(queen, list.get(2));
-        
+
         list.sortBy("year");
         assertEquals(jack, list.get(0));
         assertEquals(queen, list.get(1));

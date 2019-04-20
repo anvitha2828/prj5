@@ -1,3 +1,9 @@
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Nicholas Cardaci (nicho17)
 package prj5;
 
 /**
@@ -59,10 +65,9 @@ public class SongTest extends student.TestCase {
      * Tests the toString method to ensure it acts as expected
      */
     public void testToString() {
-        assertEquals(s.toString(), "song title Hotline Bling\r\n" + 
-            "song artist Drake\r\n" + 
-            "song genre R&B\r\n" + 
-            "song year 2015");
+        assertEquals(s.toString(), "song title Hotline Bling\r\n"
+            + "song artist Drake\r\n" + "song genre R&B\r\n"
+            + "song year 2015");
     }
 
 
