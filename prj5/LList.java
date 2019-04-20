@@ -256,11 +256,6 @@ public class LList implements Iterable<Song> {
      * @return Returns node at input index.
      */
     private Node getNodeAt(int index) {
-        if (index < 0 || size() <= index) {
-            throw new IndexOutOfBoundsException("No element exists at "
-                + index);
-        }
-
         Node curr = head;
 
         for (int i = 0; i < index; i++) {
