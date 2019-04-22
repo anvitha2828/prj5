@@ -17,58 +17,57 @@ import CS2114.Window;
 import CS2114.WindowSide;
 
 /**
- * the class houses the GUI window which is the mean display of the project.
- * 
- * @author Matthew Pinho
- *
+ * @author Matthew Pinho (mpinho16)
+ * @author Peter Kistler (pdblvkis)
+ * @author Nicholas Cardaci (nicho17)
+ * @author Anvitha Nachiappan (anvitha)
+ * @version 2019.04.20
  */
 public class GUIDataWindow {
     private Window window;
-    private Button quit;
     private Button next;
     private Button previous;
-    private Button representByHobby;
-    private Button representByMajor;
-    private Button representByState;
-    private Button sortByArtistName;
-    private Button sortBySongTitle;
-    private Button sortByReleaseYear;
-    private Button sortByGenre;
     private int pageNumber; // starts at 0.
-    private String represent;
+    private String represent = "hobby";
     private final int columnWidth = 5;
     private final int columnHeight = 40;
-    // private final int lastPage;
-    // private final int barLengthFactor = 10;
+    private final int lastPage;
+    private final int barLengthFactor = 1;
     private final int barWidth = 10;
     private LList list;
+    private final int legendWidth = 150;
+    private final int legendHeight = 190;
+    private final int xLegend;
+    private final int yLegend;
+    private String extra;
+    private final int windowWidth = 1400;
+    private final int windowHeight = 800;
 
 
     /**
-     * this is the constructor of the class it is used to initialize the class
-     * used objects.
+     * Initializes the GUI.
      * 
-     * @param songs
+     * @param reader
+     *            DataReader which produces the LList of songs used in the GUI.
      */
-    public GUIDataWindow(DataReader phil) {
-        represent = "hobby";
-        list = phil.getSongs();
-        // lastPage = (int)Math.ceil(list.size() / 9);
+    public GUIDataWindow(DataReader reader) {
+        list = reader.getSongs();
+        lastPage = (int)Math.ceil(list.size() / 9);
 
         // create window
         window = new Window("Song Survey Visualization");
 
         // create buttons
-        quit = new Button("Quit");
         previous = new Button("<-- Prev");
         next = new Button("Next -->");
-        representByHobby = new Button("Represent Hobby");
-        representByMajor = new Button("Represent Major");
-        representByState = new Button("Represent State");
-        sortByArtistName = new Button("Sort by Artist Name");
-        sortBySongTitle = new Button("Sort by Song Title");
-        sortByReleaseYear = new Button("Sort by Release Year");
-        sortByGenre = new Button("Sort by Genre");
+        Button quit = new Button("Quit");
+        Button representByHobby = new Button("Represent Hobby");
+        Button representByMajor = new Button("Represent Major");
+        Button representByState = new Button("Represent State");
+        Button sortByArtistName = new Button("Sort by Artist Name");
+        Button sortBySongTitle = new Button("Sort by Song Title");
+        Button sortByReleaseYear = new Button("Sort by Release Year");
+        Button sortByGenre = new Button("Sort by Genre");
 
         // add to window
         window.addButton(quit, WindowSide.SOUTH);
@@ -82,86 +81,90 @@ public class GUIDataWindow {
         window.addButton(sortBySongTitle, WindowSide.NORTH);
         window.addButton(next, WindowSide.NORTH);
 
-        sortBySongTitle.onClick("clickedSortBySongTitle");
-        sortByReleaseYear.onClick("clickedSortBySongTitle");
-        sortByGenre.onClick("clickedSortBySongTitle");
-        sortByArtistName.onClick("clickedSortBySongTitle");
-        quit.onClick("clickedQuit");
-        previous.onClick("clickedPrevious");
-        next.onClick("clickedNext");
-        representByState.onClick("clickedRepresentByState");
-        representByMajor.onClick("clickedRepresentByMajor");
-        representByHobby.onClick("clickedRepresentByHobby");
+        sortBySongTitle.onClick(this, "clickedSortBySongTitle");
+        sortByReleaseYear.onClick(this, "clickedSortByReleaseYear");
+        sortByGenre.onClick(this, "clickedSortByGenre");
+        sortByArtistName.onClick(this, "clickedSortByArtistName");
+        quit.onClick(this, "clickedQuit");
+        previous.onClick(this, "clickedPrevious");
+        next.onClick(this, "clickedNext");
+        representByState.onClick(this, "clickedRepresentByState");
+        representByMajor.onClick(this, "clickedRepresentByMajor");
+        representByHobby.onClick(this, "clickedRepresentByHobby");
+
+        window.setSize(windowWidth, windowHeight);
+
+        xLegend = window.getGraphPanelWidth() - legendWidth - 10;
+        yLegend = window.getGraphPanelHeight() - legendHeight - 10;
+
         update();
 
+        System.out.println("R&B".toLowerCase());
     }
 
 
     /**
-     * this method sets the function of Sort By Song Title
-     * button.
+     * Sorts songs by title.
      */
-    public void clickedSortBySongTitle() {
+    public void clickedSortBySongTitle(Button button) {
         list.sortBy("title");
+        extra = "";
         update();
     }
 
 
     /**
-     * this method sets the function of Sort By Artist Name
-     * button.
+     * Sorts songs by artist name.
      */
-    public void clickedSortByArtistName() {
+    public void clickedSortByArtistName(Button button) {
         list.sortBy("artist");
+        extra = "artist";
         update();
     }
 
 
     /**
-     * this method sets the function of Sort By Genre
-     * button.
+     * Sorts songs by genre.
      */
-    public void clickedSortByGenre() {
+    public void clickedSortByGenre(Button button) {
         list.sortBy("genre");
+        extra = "genre";
         update();
     }
 
 
     /**
-     * this method sets the function of Sort By Release Year
-     * button.
+     * Sorts songs by release year.
      */
-    public void clickedSortByReleaseYear() {
+    public void clickedSortByReleaseYear(Button button) {
         list.sortBy("year");
+        extra = "year";
         update();
     }
 
 
     /**
-     * this method sets the function of Represent By Major
-     * button.
+     * Represents song information by major.
      */
-    public void clickedRepresentByMajor() {
+    public void clickedRepresentByMajor(Button button) {
         represent = "major";
         update();
     }
 
 
     /**
-     * this method sets the function of Represent By State
-     * button.
+     * Represents song information by state.
      */
-    public void clickedRepresentByState() {
+    public void clickedRepresentByState(Button button) {
         represent = "state";
         update();
     }
 
 
     /**
-     * this method sets the function of Represent By Hobby
-     * button.
+     * Represents song information by hobby.
      */
-    public void clickedRepresentByHobby() {
+    public void clickedRepresentByHobby(Button button) {
         represent = "hobby";
         update();
     }
@@ -170,7 +173,7 @@ public class GUIDataWindow {
     /**
      * Closes the GUI.
      */
-    public void clickedQuit() {
+    public void clickedQuit(Button button) {
         System.exit(0);
     }
 
@@ -178,32 +181,18 @@ public class GUIDataWindow {
     /**
      * Simulates clicking "Next" on the GUI.
      */
-    public void clickedNext() {
-        /**
-         * pageNumber++;
-         * update();
-         * if (pageNumber >= lastPage) {
-         * next.disable();
-         * }
-         * else {
-         * next.enable();
-         * }
-         */
+    public void clickedNext(Button button) {
+        pageNumber++;
+        update();
     }
 
 
     /**
      * Simulates clicking "Previous" on the GUI.
      */
-    public void clickedPrevious() {
+    public void clickedPrevious(Button button) {
         pageNumber--;
         update();
-        if (pageNumber <= 0) {
-            previous.disable();
-        }
-        else {
-            previous.enable();
-        }
     }
 
 
@@ -211,74 +200,118 @@ public class GUIDataWindow {
      * Updates everything in GUI as needed in response to clicks on the Window.
      */
     private void update() {
-
+        window.removeAllShapes();
         updateGlyphs();
         updateLegend();
+        checkPageNumber();
     }
 
 
     /**
-     * Updates legend in response to change in represenation.
+     * Prevents going to nonexistent pages.
+     */
+    private void checkPageNumber() {
+        if (pageNumber <= 0) {
+            previous.disable();
+        }
+        else {
+            previous.enable();
+        }
+
+        if (pageNumber >= lastPage) {
+            next.disable();
+        }
+        else {
+            next.enable();
+        }
+    }
+
+
+    /**
+     * Updates legend in response to change in representation.
      */
     private void updateLegend() {
+        // column
+        window.addShape(new Shape(xLegend + 70, yLegend + 120, 5, 50,
+            Color.BLACK));
 
-        // bar
-        window.addShape(new Shape(673, 220, 5, 50, Color.BLACK));
-        TextShape songT = new TextShape(640, 200, "Song Title");
+        // "Song Title" text
+        TextShape songT = new TextShape(xLegend + 40, yLegend + 100,
+            "Song Title");
         songT.setBackgroundColor(Color.WHITE);
         window.addShape(songT);
-        TextShape heard = new TextShape(625, 230, "Heard");
+
+        // "Heard" text
+        TextShape heard = new TextShape(xLegend + 15, yLegend + 135, "Heard");
         heard.setBackgroundColor(Color.WHITE);
         window.addShape(heard);
-        TextShape likes = new TextShape(685, 230, "Likes");
+
+        // "Likes" text
+        TextShape likes = new TextShape(xLegend + 85, yLegend + 135, "Likes");
         likes.setBackgroundColor(Color.WHITE);
         window.addShape(likes);
 
-        TextShape title;
-        TextShape enumVal1;
-        TextShape enumVal2;
-        TextShape enumVal3;
-        TextShape enumVal4;
+        String title;
+        String enumVal1;
+        String enumVal2;
+        String enumVal3;
+        String enumVal4;
 
         if (represent == "major") {
-            title = new TextShape(10, 10, "Major Legend");
-            enumVal1 = new TextShape(10, 10, "Comp Sci");
-            enumVal2 = new TextShape(10, 10, "Math & CMDA");
-            enumVal3 = new TextShape(10, 10, "Other Engineering");
-            enumVal4 = new TextShape(10, 10, "Other");
+            title = "Major Legend";
+
+            enumVal1 = "Comp Sci";
+            enumVal2 = "Math & CMDA";
+            enumVal3 = "Other Engineering";
+            enumVal4 = "Other";
         }
         else if (represent == "state") {
-            title = new TextShape(10, 10, "State Legend");
-            enumVal1 = new TextShape(620, 120, "Northeast US", Color.MAGENTA);
-            enumVal2 = new TextShape(620, 140, "SouthEast US", Color.GREEN);
-            enumVal3 = new TextShape(620, 160, "Rest of US", Color.YELLOW);
-            enumVal4 = new TextShape(620, 180, "Outside US", Color.BLUE);
+            title = "State Legend";
+
+            enumVal1 = "Northeast US";
+            enumVal2 = "SouthEast US";
+            enumVal3 = "Rest of US";
+            enumVal4 = "Outside US";
         }
         else {
-            title = new TextShape(620, 100, "Hobby Legend");
-            title.setBackgroundColor(Color.WHITE);
+            title = "Hobby Legend";
 
-            enumVal1 = new TextShape(620, 120, "Reading", Color.MAGENTA);
-            enumVal1.setBackgroundColor(Color.WHITE);
-            enumVal4 = new TextShape(620, 140, "Art", Color.BLUE);
-            enumVal4.setBackgroundColor(Color.WHITE);
-            enumVal3 = new TextShape(620, 160, "Sports", Color.ORANGE);
-            enumVal3.setBackgroundColor(Color.WHITE);
-            enumVal2 = new TextShape(620, 180, "Music", Color.GREEN);
-            enumVal2.setBackgroundColor(Color.WHITE);
-
+            enumVal1 = "Reading";
+            enumVal2 = "Art";
+            enumVal3 = "Sports";
+            enumVal4 = "Music";
         }
 
-        window.addShape(title);
-        window.addShape(enumVal1);
-        window.addShape(enumVal2);
-        window.addShape(enumVal3);
-        window.addShape(enumVal4);
+        TextShape titleText = new TextShape(xLegend + 25, yLegend + 7, title);
+        titleText.setBackgroundColor(Color.WHITE);
+
+        TextShape enumVal1Text = new TextShape(xLegend + 3, yLegend + 30,
+            enumVal1, Color.MAGENTA);
+        enumVal1Text.setBackgroundColor(Color.WHITE);
+
+        TextShape enumVal2Text = new TextShape(xLegend + 3, yLegend + 47,
+            enumVal2, Color.BLUE);
+        enumVal2Text.setBackgroundColor(Color.WHITE);
+
+        TextShape enumVal3Text = new TextShape(xLegend + 3, yLegend + 64,
+            enumVal3, Color.ORANGE);
+        enumVal3Text.setBackgroundColor(Color.WHITE);
+
+        TextShape enumVal4Text = new TextShape(xLegend + 3, yLegend + 81,
+            enumVal4, Color.GREEN);
+        enumVal4Text.setBackgroundColor(Color.WHITE);
+
+        window.addShape(titleText);
+        window.addShape(enumVal1Text);
+        window.addShape(enumVal2Text);
+        window.addShape(enumVal3Text);
+        window.addShape(enumVal4Text);
 
         // background box
-        Shape s = new Shape(610, 90, 125, 190, Color.BLACK);
-        s.setBackgroundColor(Color.WHITE);
-        window.addShape(s);
+        Shape back = new Shape(xLegend, yLegend, legendWidth, legendHeight,
+            Color.BLACK);
+        back.setBackgroundColor(Color.WHITE);
+        window.addShape(back);
     }
 
 
@@ -286,19 +319,19 @@ public class GUIDataWindow {
      * Updates all glyphs in response to signals send to GUI.
      */
     private void updateGlyphs() {
-        window.removeAllShapes();
         int i = 0;
         Song song;
+        int index;
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                index = pageNumber * 9 + i;
+                if (index >= list.size()) {
+                    break;
+                }
 
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                song = list.get(pageNumber + i);
+                song = list.get(pageNumber * 9 + i);
                 generateGlyph(x, y, song);
                 i++;
-
-                if (pageNumber + i >= list.size()) {
-                    return;
-                }
             }
         }
     }
@@ -317,33 +350,27 @@ public class GUIDataWindow {
     private void generateGlyph(int x, int y, Song song) {
         // generate column
         int xPos = (int)((x + .45) * .28 * window.getGraphPanelWidth()
-            - columnWidth / 2);
+            - columnWidth / 2) + 60;
         int yPos = (int)((y + .75) * .28 * window.getGraphPanelHeight());
         window.addShape(new Shape(xPos, yPos, columnWidth, columnHeight,
             Color.BLACK));
 
         int xLike = xPos + columnWidth;
 
-        // generate bars
-        @SuppressWarnings("unused")
         int[][] info = song.getInfo(represent);
 
-        int xMagentaH = 30;// barLength(info[0][0]);
-        int xBlueH = 10; // barLength(info[1][0]);
-        int xOrangeH = 25;// barLength(info[2][0]);
-        int xGreenH = 10;
-        // barLength(info[3][0]);
+        int xMagentaH = barLength(info[0][0]);
+        int xBlueH = barLength(info[1][0]);
+        int xOrangeH = barLength(info[2][0]);
+        int xGreenH = barLength(info[3][0]);
 
-        int xMagentaL = 20;
-        // barLength(info[0][1]);
-        int xBlueL = 40;
-        // barLength(info[1][1]);
-        int xOrangeL = 25;
-        // barLength(info[2][1]);
-        int xGreenL = 40;
-        // barLength(info[3][1]);
+        // liked
+        int xMagentaL = barLength(info[0][1]);
+        int xBlueL = barLength(info[1][1]);
+        int xOrangeL = barLength(info[2][1]);
+        int xGreenL = barLength(info[3][1]);
 
-        // heards bars
+        // heard bars
         Shape magentaH = new Shape(xPos - xMagentaH, yPos, xMagentaH, barWidth,
             Color.MAGENTA);
         Shape blueH = new Shape(xPos - xBlueH, yPos + barWidth, xBlueH,
@@ -364,24 +391,32 @@ public class GUIDataWindow {
             Color.GREEN);
 
         // add TextShape description
-        @SuppressWarnings("unused")
-        String description = song.getTitle();
-        if (represent != "title") {
-            description += " " + song.getTitle();
+        String description = "";
+        int disp = 0;
+        if (extra == "genre") {
+            description += "genre: " + song.getGenre();
         }
-        if (represent == "hobby") {
-
+        else if (extra == "artist") {
+            description += "artist: " + song.getArtist();
+        }
+        else if (extra == "year") {
+            description += "release year: " + song.getYear();
+        }
+        else {
+            disp = 15;
         }
 
-        TextShape title = new TextShape(xPos, yPos - 35, song.getTitle());
+        TextShape title = new TextShape(xPos, yPos - 35 + disp, song
+            .getTitle());
         title.setBackgroundColor(Color.WHITE);
         title.setX(title.getX() - title.getWidth() / 2);
-        TextShape artist = new TextShape(xPos, yPos - 20, "by " + song
-            .getArtist());
-        artist.setBackgroundColor(Color.WHITE);
-        artist.setX(artist.getX() - artist.getWidth() / 2);
+
+        TextShape descrip = new TextShape(xPos, yPos - 20, description);
+        descrip.setBackgroundColor(Color.WHITE);
+        descrip.setX(descrip.getX() - descrip.getWidth() / 2);
         window.addShape(title);
-        window.addShape(artist);
+        window.addShape(descrip);
+
         window.addShape(magentaH);
         window.addShape(blueH);
         window.addShape(orangeH);
@@ -391,5 +426,17 @@ public class GUIDataWindow {
         window.addShape(blueL);
         window.addShape(orangeL);
         window.addShape(greenL);
+    }
+
+
+    /**
+     * Returns the length of a bar based on count of likes or heards.
+     * 
+     * @param count
+     *            Number of likes or heards.
+     * @return Length of a bar.
+     */
+    private int barLength(int count) {
+        return barLengthFactor * count;
     }
 }
