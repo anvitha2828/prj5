@@ -9,8 +9,6 @@
 // -- Matthew Pinho (mpinho16)
 package prj5;
 
-import java.io.FileNotFoundException;
-
 /**
  * Project runner.
  * 
@@ -27,13 +25,13 @@ public class Input {
      * @param args
      *            Relevant filenames.
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         if (args.length == 2) {
             new GUIDataWindow(new DataReader(args[0], args[1]));
         }
         else {
-            new GUIDataWindow(new DataReader("MusicSurveyData2018.csv",
-                "SongList2018.csv"));
+            new GUIDataWindow(new DataReader("MusicSurveyData.csv",
+                "SongList.csv"));
         }
     }
 }
