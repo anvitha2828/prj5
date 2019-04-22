@@ -221,17 +221,21 @@ public class LList implements Iterable<Song> {
     /**
      * Determines if second String comes earlier than the first.
      * 
-     * @param str1
-     *            the first string
-     * @param str2
-     *            the second string
+     * @param s1
+     * @param s2
      * @return Whether str2 is earlier than str1.
      */
-    public boolean foundNewEarliest(String str1, String str2) {
+    public boolean foundNewEarliest(String s1, String s2) {
+        String str1 = s1.toLowerCase();
+        String str2 = s2.toLowerCase();
         String[] str = new String[] { str1, str2 };
         String[] sorted = new String[] { str1, str2 };
         Arrays.sort(sorted);
-        return str[0] != sorted[0];
+        if (str[0] != sorted[0]) {
+            return true;
+        }
+
+        return false;
     }
 
 
