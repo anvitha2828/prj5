@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- * this class contains methods that are necessary to operate the data reader.
- * 
  * @author Matthew Pinho (mpinho16)
  * @author Peter Kistler (pdblvkis)
  * @author Nicholas Cardaci (nicho17)
@@ -31,17 +29,15 @@ public class DataReader {
 
 
     /**
-     * creates a new DataReader object
+     * Creates a new DataReader object to store songs information.
      * 
      * @param songFile
      *            the list of songs for which data was collected
      * @param surveyFile
      *            the results of the data collection survey
      * @throws FileNotFoundException
-     *             if an invalid file argument is passed
      */
-    public DataReader(String surveyFile, String songFile)
-        throws FileNotFoundException {
+    public DataReader(String surveyFile, String songFile) {
         songBank = new LList();
 
         /*
@@ -71,17 +67,23 @@ public class DataReader {
         hob.put("music", 3);
         hob.put("", 4);
 
-        readSongs(songFile);
-        readSurveys(surveyFile);
-        songBank.sortBy("genre");
-        printSongs();
-        songBank.sortBy("title");
-        printSongs();
+        try {
+            readSongs(songFile);
+            readSurveys(surveyFile);
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //songBank.sortBy("genre");
+        // printSongs();
+        //songBank.sortBy("title");
+        // printSongs();
     }
 
 
     /**
-     * getter method for the LList of songs
+     * Returns LList of songs.
      * 
      * @return the songBank field
      */
@@ -91,10 +93,10 @@ public class DataReader {
 
 
     /**
-     * reads the data from the SongList2018.csv file
+     * Reads in and stores data from file of song names.
      * 
      * @param filename
-     *            the name of the file to read
+     *            The name of the file to read.
      * @throws FileNotFoundException
      */
     private void readSongs(String filename) throws FileNotFoundException {
@@ -110,12 +112,11 @@ public class DataReader {
 
 
     /**
-     * Reads data from the MusicSurveyData2018.csv file.
+     * Reads in and stores data from file with survey responses.
      * 
      * @param filename
      *            The name of the file to read.
      * @throws FileNotFoundException
-     *             if an invalid file argument is passed
      */
     private void readSurveys(String filename) throws FileNotFoundException {
         @SuppressWarnings("resource")
