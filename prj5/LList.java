@@ -1,246 +1,334 @@
-// Virginia Tech Honor Code Pledge:
-//
-// As a Hokie, I will conduct myself with honor and integrity at all times.
-// I will not lie, cheat, or steal, nor will I accept the actions of those who
-// do.
-// -- Nicholas Cardaci (nicho17)
-// -- Peter Kistler (pdblvkis)
-// -- Anvitha Nachiappan (anvitha)
-// -- Matthew Pinho (mpinho16)
 package prj5;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
+ * List of Songs.
+ * 
  * @author Matthew Pinho (mpinho16)
  * @author Peter Kistler (pdblvkis)
  * @author Nicholas Cardaci (nicho17)
  * @author Anvitha Nachiappan (anvitha)
  * @version 2019.04.20
  */
-public class DataReader {
-    private LList songBank;
-    private HashMap<String, Integer> maj;
-    private HashMap<String, Integer> stt;
-    private HashMap<String, Integer> hob;
-
+public class LList implements Iterable<Song> {
 
     /**
-     * Creates a new DataReader object to store songs information.
+     * Component of linked list containing a Song.
      * 
-     * @param songFile
-     *            the list of songs for which data was collected
-     * @param surveyFile
-     *            the results of the data collection survey
-     * @throws FileNotFoundException
+     * @author Matthew Pinho (mpinho16)
+     * @author Peter Kistler (pdblvkis)
+     * @author Nicholas Cardaci (nicho17)
+     * @author Anvitha Nachiappan (anvitha)
+     * @version 2019.04.20
      */
-    public DataReader(String surveyFile, String songFile) {
-        songBank = new LList();
+    public static class Node {
 
-        /*
-         * Each of the HashMaps maps a scanned-in String to an integer value
-         * (row number)
-         * corresponding to the ENUM value in the array. The empty String ("")
-         * maps to the last row in the array, which will never be used.
+        // The data element stored in the node.
+        private Song data;
+
+        // The next node in the sequence.
+        private Node next;
+
+
+        /**
+         * Creates a new node with the given data
+         *
+         * @param song
+         *            The data to put inside the node
          */
-        maj = new HashMap<String, Integer>();
-        maj.put("Computer Science", 0);
-        maj.put("Other Engineering", 1);
-        maj.put("Math or CMDA", 2);
-        maj.put("Other", 3);
-        maj.put("", 4);
-
-        stt = new HashMap<String, Integer>();
-        stt.put("Southeast", 0);
-        stt.put("Northeast", 1);
-        stt.put("United States (other than Southeast or Northwest)", 2);
-        stt.put("Outside of United States", 3);
-        stt.put("", 4);
-
-        hob = new HashMap<String, Integer>();
-        hob.put("reading", 0);
-        hob.put("art", 1);
-        hob.put("sports", 2);
-        hob.put("music", 3);
-        hob.put("", 4);
-
-        try {
-            readSongs(songFile);
-            readSurveys(surveyFile);
+        public Node(Song song) {
+            data = song;
         }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
+    }
+
+    private Node head;
+    private int size;
+    private String[] param;
+    private LListIterator iter;
+
+
+    /**
+     * Creates a new LinkedList object
+     */
+    public LList() {
+        head = null;
+        size = 0;
+        param = new String[0];
+    }
+
+
+    /**
+     * Gets the number of elements in the list
+     *
+     * @return the number of elements
+     */
+    public int size() {
+        return size;
+    }
+
+
+    /**
+     * Adds the object to the end of the list.
+     *
+     * @precondition song cannot be null
+     * @param song
+     *            the object to add
+     * @throws IllegalArgumentException
+     *             if song is null
+     */
+    public void add(Song song) {
+        iter = iterator();
+
+        if (song == null) {
+            throw new IllegalArgumentException("Cannot add null "
+                + "objects to a list");
         }
 
-        songBank.sortBy("genre");
-        // printSongs();
-        songBank.sortBy("title");
-        // printSongs();
+        if (isEmpty()) {
+            head = new Node(song);
+        }
+        else {
+            Node curr = head;
+            while (iter.hasNext()) {
+                iter.next();
+                curr = curr.next;
+            }
+
+            curr.next = new Node(song);
+        }
+
+        size++;
+        param = new String[size];
     }
 
 
     /**
-     * Returns LList of songs.
-     * 
-     * @return the songBank field
+     * Checks if the array is empty
+     *
+     * @return true if the array is empty
      */
-    public LList getSongs() {
-        return songBank;
+    public boolean isEmpty() {
+        return size == 0;
     }
 
 
     /**
-     * Reads in and stores data from file of song names.
-     * 
-     * @param filename
-     *            The name of the file to read.
-     * @throws FileNotFoundException
+     * Gets the object at the given position
+     *
+     * @param index
+     *            where the object is located
+     * @return The object at the given position
+     * @throws IndexOutOfBoundsException
+     *             if no node at the given index
      */
-    private void readSongs(String filename) throws FileNotFoundException {
-        @SuppressWarnings("resource")
-        Scanner scanWee = new Scanner(new File(filename));
-        scanWee.nextLine();
-        while (scanWee.hasNextLine()) {
-            String parcel = scanWee.nextLine();
-            String[] parsed = parcel.split(",", -1);
-            songBank.add(new Song(parsed[0], parsed[1], parsed[2], parsed[3]));
-        } // end while
+    public Song get(int index) {
+        iter = iterator();
+
+        if (index < 0 || size() <= index) {
+            throw new IndexOutOfBoundsException("No element exists at "
+                + index);
+        }
+
+        Song song = head.data;
+
+        for (int i = 0; i < index; i++) {
+            song = iter.next();
+        }
+
+        return song;
     }
 
 
     /**
-     * Reads in and stores data from file with survey responses.
-     * 
-     * @param filename
-     *            The name of the file to read.
-     * @throws FileNotFoundException
-     */
-    private void readSurveys(String filename) throws FileNotFoundException {
-        @SuppressWarnings("resource")
-        Scanner scanWoo = new Scanner(new File(filename));
-        scanWoo.nextLine();
-        while (scanWoo.hasNextLine()) {
-            addSongInfo(scanWoo.nextLine()); // single song
-        } // end while
-    } // end readSurveys
-
-
-    /**
-     * Takes an String input corresponding to a SINGLE student response, and
-     * updates the survey results for each song, correspondingly.
+     * Changes the parameter array to input field of Song class.
      * 
      * @param str
-     *            One whole line in the file, corresponding to ONE student
-     *            response.
+     *            A field of Song class.
      */
-    private void addSongInfo(String str) {
-        String[] chopped = str.split(",", -1);
-        int majVal = maj.get(chopped[2]);
-        int sttVal = stt.get(chopped[3]);
-        int hobVal = hob.get(chopped[4]);
+    private void changeParam(String str) {
+        if (str.equals("title")) {
+            for (int i = 0; i < size; i++) {
+                param[i] = get(i).getTitle();
+            }
+        }
+        else if (str.equals("genre")) {
+            for (int i = 0; i < size; i++) {
+                param[i] = get(i).getGenre();
+            }
+        }
+        else if (str.equals("artist")) {
+            for (int i = 0; i < size; i++) {
+                param[i] = get(i).getArtist();
+            }
+        }
+        else if (str.equals("year")) {
+            for (int i = 0; i < size; i++) {
+                param[i] = get(i).getYear();
+            }
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
 
-        Song song;
-        int songNum = 0;
+    }
 
-        // Each iteration observes data for ONE song.
-        for (int i = 5; i < chopped.length; i += 2) {
-            song = songBank.get(songNum);
-            // Heard: Yes
-            if (chopped[i].equals("Yes")) {
-                song.getInfo("major")[majVal][0]++;
-                song.getInfo("state")[sttVal][0]++;
-                song.getInfo("hobby")[hobVal][0]++;
-            }
-            // Heard: No
-            else if (chopped[i].equals("No")) {
-                song.getInfo("major")[majVal][2]++;
-                song.getInfo("state")[sttVal][2]++;
-                song.getInfo("hobby")[hobVal][2]++;
-            }
-            // Liked: Yes
-            if (chopped[i + 1].equals("Yes")) {
-                song.getInfo("major")[majVal][1]++;
-                song.getInfo("state")[sttVal][1]++;
-                song.getInfo("hobby")[hobVal][1]++;
-            }
-            // Liked: No
-            else if (chopped[i + 1].equals("No")) {
-                song.getInfo("major")[majVal][3]++;
-                song.getInfo("state")[sttVal][3]++;
-                song.getInfo("hobby")[hobVal][3]++;
+
+    /**
+     * Sorts the list by input parameter.
+     * 
+     * @param str
+     *            Song parameter by which is sorted.
+     */
+    public void sortBy(String str) {
+        changeParam(str); // param is now set according to input parameter.
+
+        for (int lh = 0; lh < size - 1; lh++) {
+            String earliest = param[lh];
+            int pEarliest = -1; // default values.
+            String curr;
+
+            for (int rh = lh + 1; rh < size; rh++) {
+                curr = param[rh]; // String on rh to compare.
+
+                // If earlier than earliest, new earliest.
+                if (foundNewEarliest(earliest, curr)) {
+                    earliest = curr;
+                    pEarliest = rh;
+                }
             }
 
-            songNum++;
+            if (pEarliest != -1) {
+                // The case when lh String is already where it should be.
+                swapElements(lh, pEarliest);
+            }
         }
     }
 
 
     /**
-     * Prints the relevant information of a single song.
+     * Determines if second String comes earlier than the first.
      * 
-     * @param song
-     *            Song for which information is being printed.
+     * @param s1
+     *            First String object.
+     * @param s2
+     *            Second String object.
+     * @return Whether str2 is earlier than str1.
      */
-    private void print(Song song) {
-        StringBuilder builder = new StringBuilder();
-        System.out.println("Song Title: " + song.getTitle());
-        System.out.println("Song Artist: " + song.getArtist());
-        System.out.println("Song Genre: " + song.getGenre());
-        System.out.println("Song Year: " + song.getYear());
+    public boolean foundNewEarliest(String s1, String s2) {
+        String str1 = s1.toLowerCase();
+        String str2 = s2.toLowerCase();
+        String[] str = new String[] { str1, str2 };
+        String[] sorted = new String[] { str1, str2 };
+        Arrays.sort(sorted);
 
-        System.out.println("Heard");
-        builder.append("reading:" + percent(song, 0, 0));
-        builder.append(" art:" + percent(song, 1, 0));
-        builder.append(" sports:" + percent(song, 2, 0));
-        builder.append(" music:" + percent(song, 3, 0));
-
-        System.out.println(builder.toString());
-        builder = new StringBuilder();
-
-        System.out.println("Likes");
-        builder.append("reading:" + percent(song, 0, 1));
-        builder.append(" art:" + percent(song, 1, 1));
-        builder.append(" sports:" + percent(song, 2, 1));
-        builder.append(" music:" + percent(song, 3, 1));
-
-        System.out.println(builder.toString());
-        System.out.println();
+        return !str[0].equals(sorted[0]);
     }
 
 
     /**
-     * Calculates the proportion of the yeses to the sum of yeses and nos.
+     * Swaps the p1 and p2 entries in the param array and subsequently in the
+     * list.
      * 
-     * @param song
-     *            Song for which percentages are to be calculated.
-     * @param i
-     *            The i-th row of an information array of the song.
-     * @param j
-     *            The j-th column of an information array of the song.
-     * @return Proportion of the yeses to the sum of the yeses and nos.
+     * @param p1
+     *            Index of first Song.
+     * @param p2
+     *            Index of second Song.
      */
-    private int percent(Song song, int i, int j) {
-        int[][] arr = song.getInfo("hobby");
-        double yes = arr[i][j];
-        double no = arr[i][j + 2];
+    public void swapElements(int p1, int p2) {
+        if (p2 != p1 && p2 <= size && p1 <= size) {
+            String temp = param[p1];
+            param[p1] = param[p2];
+            param[p2] = temp;
 
-        if (yes == 0 && no == 0) {
-            return 0;
+            Node node1 = getNodeAt(p1);
+            Node node2 = getNodeAt(p2);
+
+            Song sTemp = node1.data;
+            node1.data = node2.data;
+            node2.data = sTemp;
+        }
+    }
+
+
+    /**
+     * Returns the node at given index.
+     * 
+     * @param index
+     *            Index which node is at.
+     * @return Returns node at input index.
+     */
+    private Node getNodeAt(int index) {
+        Node curr = head;
+
+        for (int i = 0; i < index; i++) {
+            curr = curr.next;
         }
 
-        return (int)(yes / (yes + no) * 100);
+        return curr;
     }
 
 
     /**
-     * Prints songs one-by-one.
+     * Returns a new LListerator.
+     * 
+     * @return new LListIterator.
      */
-    private void printSongs() {
-        for (int i = 0; i < songBank.size(); i++) {
-            print(songBank.get(i));
+    public LListIterator iterator() {
+        return new LListIterator();
+    }
+
+
+    /**
+     * Iterator for List.
+     * 
+     * @author Matthew Pinho
+     * @author Peter Kistler
+     * @author Nicholas Cardaci
+     * @author Anvitha Nachiappan
+     * @version 2019.04.16
+     *
+     */
+    private class LListIterator implements Iterator<Song> {
+        private Node curr;
+
+
+        /**
+         * Creates a new LListIterator.
+         */
+        public LListIterator() {
+            curr = head;
+        }
+
+
+        /**
+         * Returns whether there is a next element.
+         * 
+         * @return Whether or not there is another element after the cursor in
+         *         the LList.
+         */
+        public boolean hasNext() {
+            return curr.next != null;
+        }
+
+
+        @Override
+        public Song next() {
+            curr = curr.next;
+            return curr.data;
+        }
+    }
+
+
+    /**
+     * Clears the entire list.
+     */
+    public void clear() {
+        if (head != null) {
+            head.next = null;
+            head = null;
+            size = 0;
         }
     }
 }
