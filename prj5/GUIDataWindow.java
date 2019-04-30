@@ -24,24 +24,25 @@ import CS2114.WindowSide;
  * @version 2019.04.20
  */
 public class GUIDataWindow {
+    private final int windowWidth = 1400;
+    private final int windowHeight = 800;
+    private final int columnWidth = 5;
+    private final int columnHeight = 40;
+    private final int legendWidth = 150;
+    private final int legendHeight = 190;
+    private final int barLengthFactor = 1;
+    private final int barWidth = 10;
     private Window window;
     private Button next;
     private Button previous;
     private int pageNumber; // starts at 0.
-    private String represent = "hobby";
-    private final int columnWidth = 5;
-    private final int columnHeight = 40;
+    // current representation
     private final int lastPage;
-    private final int barLengthFactor = 1;
-    private final int barWidth = 10;
     private LList list;
-    private final int legendWidth = 150;
-    private final int legendHeight = 190;
     private final int xLegend;
     private final int yLegend;
-    private String extra;
-    private final int windowWidth = 1400;
-    private final int windowHeight = 800;
+    private String sortType;
+    private String representType = "hobby";
 
 
     /**
@@ -52,10 +53,12 @@ public class GUIDataWindow {
      */
     public GUIDataWindow(DataReader reader) {
         list = reader.getSongs();
-        lastPage = (int)Math.ceil(list.size() / 9);
+        lastPage = (int)Math.ceil(list.size() / 9); // highest possible number
+                                                    // of pages
 
         // create window
         window = new Window("Song Survey Visualization");
+        window.setSize(windowWidth, windowHeight);
 
         // create buttons
         previous = new Button("<-- Prev");
@@ -92,14 +95,11 @@ public class GUIDataWindow {
         representByMajor.onClick(this, "clickedRepresentByMajor");
         representByHobby.onClick(this, "clickedRepresentByHobby");
 
-        window.setSize(windowWidth, windowHeight);
-
+        // legend position
         xLegend = window.getGraphPanelWidth() - legendWidth - 10;
         yLegend = window.getGraphPanelHeight() - legendHeight - 10;
 
         update();
-
-        System.out.println("R&B".toLowerCase());
     }
 
 
@@ -108,7 +108,7 @@ public class GUIDataWindow {
      */
     public void clickedSortBySongTitle(Button button) {
         list.sortBy("title");
-        extra = "";
+        sortType = "";
         update();
     }
 
@@ -118,7 +118,7 @@ public class GUIDataWindow {
      */
     public void clickedSortByArtistName(Button button) {
         list.sortBy("artist");
-        extra = "artist";
+        sortType = "artist";
         update();
     }
 
@@ -128,7 +128,7 @@ public class GUIDataWindow {
      */
     public void clickedSortByGenre(Button button) {
         list.sortBy("genre");
-        extra = "genre";
+        sortType = "genre";
         update();
     }
 
@@ -138,7 +138,7 @@ public class GUIDataWindow {
      */
     public void clickedSortByReleaseYear(Button button) {
         list.sortBy("year");
-        extra = "year";
+        sortType = "year";
         update();
     }
 
@@ -147,7 +147,7 @@ public class GUIDataWindow {
      * Represents song information by major.
      */
     public void clickedRepresentByMajor(Button button) {
-        represent = "major";
+        representType = "major";
         update();
     }
 
@@ -156,7 +156,7 @@ public class GUIDataWindow {
      * Represents song information by state.
      */
     public void clickedRepresentByState(Button button) {
-        represent = "state";
+        representType = "state";
         update();
     }
 
@@ -165,7 +165,7 @@ public class GUIDataWindow {
      * Represents song information by hobby.
      */
     public void clickedRepresentByHobby(Button button) {
-        represent = "hobby";
+        representType = "hobby";
         update();
     }
 
@@ -208,9 +208,12 @@ public class GUIDataWindow {
 
 
     /**
-     * Prevents going to nonexistent pages.
+     * Prevents going to nonexistent pages. Disables/enables page navigation
+     * buttons as needed.
      */
     private void checkPageNumber() {
+        // Previous button is disabled if page is 0.
+        // Otherwise is kept enabled.
         if (pageNumber <= 0) {
             previous.disable();
         }
@@ -218,6 +221,8 @@ public class GUIDataWindow {
             previous.enable();
         }
 
+        // Next button is disabled if page is the last page.
+        // Otherwise is kept enabled.
         if (pageNumber >= lastPage) {
             next.disable();
         }
@@ -251,13 +256,14 @@ public class GUIDataWindow {
         likes.setBackgroundColor(Color.WHITE);
         window.addShape(likes);
 
+        // Labels chosen based on representation wanted.
         String title;
         String enumVal1;
         String enumVal2;
         String enumVal3;
         String enumVal4;
 
-        if (represent == "major") {
+        if (representType == "major") {
             title = "Major Legend";
 
             enumVal1 = "Comp Sci";
@@ -265,7 +271,7 @@ public class GUIDataWindow {
             enumVal3 = "Other Engineering";
             enumVal4 = "Other";
         }
-        else if (represent == "state") {
+        else if (representType == "state") {
             title = "State Legend";
 
             enumVal1 = "Northeast US";
@@ -282,6 +288,7 @@ public class GUIDataWindow {
             enumVal4 = "Music";
         }
 
+        // Generates shapes for labels.
         TextShape titleText = new TextShape(xLegend + 25, yLegend + 7, title);
         titleText.setBackgroundColor(Color.WHITE);
 
@@ -350,27 +357,24 @@ public class GUIDataWindow {
     private void generateGlyph(int x, int y, Song song) {
         // generate column
         int xPos = (int)((x + .45) * .28 * window.getGraphPanelWidth()
-            - columnWidth / 2) + 60;
+            - columnWidth / 2) + 60; // x position of column.
+        // y position of column.
         int yPos = (int)((y + .75) * .28 * window.getGraphPanelHeight());
         window.addShape(new Shape(xPos, yPos, columnWidth, columnHeight,
             Color.BLACK));
 
+        // x position of all liked bars for given song.
         int xLike = xPos + columnWidth;
 
-        int[][] info = song.getInfo(represent);
+        // Array holding all heard/liked information on given song.
+        int[][] info = song.getInfo(representType);
 
+        // heard bars
         int xMagentaH = barLength(info[0][0]);
         int xBlueH = barLength(info[1][0]);
         int xOrangeH = barLength(info[2][0]);
         int xGreenH = barLength(info[3][0]);
 
-        // liked
-        int xMagentaL = barLength(info[0][1]);
-        int xBlueL = barLength(info[1][1]);
-        int xOrangeL = barLength(info[2][1]);
-        int xGreenL = barLength(info[3][1]);
-
-        // heard bars
         Shape magentaH = new Shape(xPos - xMagentaH, yPos, xMagentaH, barWidth,
             Color.MAGENTA);
         Shape blueH = new Shape(xPos - xBlueH, yPos + barWidth, xBlueH,
@@ -380,7 +384,17 @@ public class GUIDataWindow {
         Shape greenH = new Shape(xPos - xGreenH, yPos + 3 * barWidth, xGreenH,
             barWidth, Color.GREEN);
 
-        // likes bars
+        window.addShape(magentaH);
+        window.addShape(blueH);
+        window.addShape(orangeH);
+        window.addShape(greenH);
+
+        // liked bars
+        int xMagentaL = barLength(info[0][1]);
+        int xBlueL = barLength(info[1][1]);
+        int xOrangeL = barLength(info[2][1]);
+        int xGreenL = barLength(info[3][1]);
+
         Shape magentaL = new Shape(xLike, yPos, xMagentaL, barWidth,
             Color.MAGENTA);
         Shape blueL = new Shape(xLike, yPos + barWidth, xBlueL, barWidth,
@@ -390,47 +404,45 @@ public class GUIDataWindow {
         Shape greenL = new Shape(xLike, yPos + 3 * barWidth, xGreenL, barWidth,
             Color.GREEN);
 
+        window.addShape(magentaL);
+        window.addShape(blueL);
+        window.addShape(orangeL);
+        window.addShape(greenL);
+
         // add TextShape description
         String description = "";
         int disp = 0;
-        if (extra == "genre") {
+        if (sortType == "genre") {
             description += "genre: " + song.getGenre();
         }
-        else if (extra == "artist") {
+        else if (sortType == "artist") {
             description += "artist: " + song.getArtist();
         }
-        else if (extra == "year") {
+        else if (sortType == "year") {
             description += "release year: " + song.getYear();
         }
         else {
             disp = 15;
         }
 
+        // title of song.
         TextShape title = new TextShape(xPos, yPos - 35 + disp, song
             .getTitle());
         title.setBackgroundColor(Color.WHITE);
         title.setX(title.getX() - title.getWidth() / 2);
+        window.addShape(title);
 
+        // extra description of song, if needed.
         TextShape descrip = new TextShape(xPos, yPos - 20, description);
         descrip.setBackgroundColor(Color.WHITE);
         descrip.setX(descrip.getX() - descrip.getWidth() / 2);
-        window.addShape(title);
         window.addShape(descrip);
-
-        window.addShape(magentaH);
-        window.addShape(blueH);
-        window.addShape(orangeH);
-        window.addShape(greenH);
-
-        window.addShape(magentaL);
-        window.addShape(blueL);
-        window.addShape(orangeL);
-        window.addShape(greenL);
     }
 
 
     /**
-     * Returns the length of a bar based on count of likes or heards.
+     * Returns the length of a bar based on count of likes or heards in song's
+     * info array.
      * 
      * @param count
      *            Number of likes or heards.
